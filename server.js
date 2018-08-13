@@ -84,7 +84,7 @@ DEV DIARY:
 var roomScript = require('./room.js');
 
 var net = require('net');
-var serverPort = process.env.PORT | 3000;
+var serverPort = process.env.PORT || 5000;
 
 // Define Player class and player list
 var playerList = [];
