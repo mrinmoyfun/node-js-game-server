@@ -1,5 +1,5 @@
 {
-  "name": "Node JS Game Server",
+  "name": "quiz-time",
   "version": "1.0.0",
   "description": "A Real Time Quiz Application built using Node.js, Express, Mongoose, Socket.io & Passport.",
   "scripts": {
