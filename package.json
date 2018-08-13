@@ -1,5 +1,5 @@
 {
-  "name": "js serer",
+  "name": "Node JS Game Server",
   "version": "1.0.0",
   "description": "A Real Time Quiz Application built using Node.js, Express, Mongoose, Socket.io & Passport.",
   "scripts": {
