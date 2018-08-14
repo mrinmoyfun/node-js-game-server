@@ -28,10 +28,6 @@ function update(room)
     m = m +1
     i = 20
   }
-  if (m == 10){
-    room.sendCommand("Result "+m);
-    room.Finish();
-  }
 	}
 }
 
