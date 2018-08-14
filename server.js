@@ -85,7 +85,7 @@ var roomScript = require('./room.js');
 
 const WebSocket = require('ws');
 
-const wss = new WebSocket.Server({ port: 8080 });
+const wss = new WebSocket.Server({ port: process.env.PORT || 5000 });
 // Define Player class and player list
 var playerList = [];
 function Player(_x, _y, _name, _socket)
