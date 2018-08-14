@@ -2,8 +2,8 @@
 Script: Node.JS Game Server - Core Server
 Author: Huy Tran
 Email: kingbazoka@gmail.com
-Description: 
- This project aim to create an easy to use multiplayer game server, programmers only 
+Description:
+ This project aim to create an easy to use multiplayer game server, programmers only
  have to implement gameplay logic which will be run in each game room and don't have
  to care much about the core server.
  The Core Server is a room-based multiplayer system that enable players connect, chat
@@ -15,10 +15,10 @@ CORE SERVER MESSAGES:
 
 1) Player connected to server
 	RECEIVE: 	[CONNECTED;<player-name>]		(Everyone except sender)
-	
+
 2) Player disconnected from server
 	RECEIVE:	[DISCONNECTED;<player-name>] 	(Everyone except sender)
-	
+
 3) Player send a chat message in Global chat
 	SEND: 		[CHAT;<message>]
 	RECEIVE: 	[CHAT;<player-name>;<message>]	(Everyone in Global lobby)
@@ -36,15 +36,15 @@ CORE SERVER MESSAGES:
 6) Player left room
 	SEND:		[LEAVEROOM]
 	RECEIVE:	[LEFTROOM;<player-name>]		(Players already in room)
-	
+
 7) Player chat in a room
-	SEND:		[CHATROOM;<message>]			
+	SEND:		[CHATROOM;<message>]
 	RECEIVE:	[CHATROOM;<player-name>;<message>] (Players already in room)
 
 8) Get available room list:
 	SEND:		[GETROOMLIST]
-	RECEIVE:	[ROOMLIST;<list-of-room-name>]	(Sender)		
-	
+	RECEIVE:	[ROOMLIST;<list-of-room-name>]	(Sender)
+
 9) Ready/Cancel in room:
 	SEND:		[READY] / [CANCEL]
 	RECEIVE:	[PLAYERREADY;<player-name>] / [PLAYERCANCEL;<player-name>] (Players already in room)
@@ -63,7 +63,7 @@ DEV DIARY:
 
 22:45 - 13/10/2013: Weekend ended. Back to work now :D
 
-14/10/2013: The first release with: 
+14/10/2013: The first release with:
 	- Connecting to server
 	- Disconnecting from server
 	- Player joining room
@@ -83,9 +83,9 @@ DEV DIARY:
 
 var roomScript = require('./room.js');
 
-var net = require('net');
-var serverPort = process.env.PORT || 5000;
+const WebSocket = require('ws');
 
+const wss = new WebSocket.Server({ port: 8080 });
 // Define Player class and player list
 var playerList = [];
 function Player(_x, _y, _name, _socket)
@@ -96,23 +96,23 @@ function Player(_x, _y, _name, _socket)
 	this.room = null;
 	this.socket = _socket;
 	this.is_ready = false;
-	
+
 	this.Ready = function()
 	{
 		if (this.room != null)
 		{
 			this.is_ready = true;
-			this.room.broadCast("[PLAYERREADY;" + this.name + "]", this); // Send ready message to all players	
+			this.room.broadCast("[PLAYERREADY;" + this.name + "]", this); // Send ready message to all players
 		}
 	}
-	
+
 	this.Cancel = function()
 	{
 		if (this.room != null)
 		{
 			this.is_ready = false;
-			this.room.broadCast("[PLAYERCANCEL;" + this.name + "]", this); // Send cancel message to all players	
-		}		
+			this.room.broadCast("[PLAYERCANCEL;" + this.name + "]", this); // Send cancel message to all players
+		}
 	}
 
 	this.joinRoom = function(roomName)
@@ -129,7 +129,7 @@ function Player(_x, _y, _name, _socket)
 					r.players.push(cplayer);
 					r.playerCount++;
 					// Switch room state
-					if (r.playerCount < r.maxPlayer) 
+					if (r.playerCount < r.maxPlayer)
 					{
 						r.Wait(); // Still waiting for players
 					}
@@ -139,19 +139,19 @@ function Player(_x, _y, _name, _socket)
 					}
 					cplayer.room = r;
 					console.log("[!] " + cplayer.name + " joined room " + r.name);
-					r.broadCast("[JOINROOM;" + cplayer.name + "]", cplayer);	
-					cplayer.socket.write("[JOINEDROOM;" + r.name + "]");
+					r.broadCast("[JOINROOM;" + cplayer.name + "]", cplayer);
+					cplayer.socket.send("[JOINEDROOM;" + r.name + "]");
 				}
 				else
 				{
-					cplayer.socket.write("[ROOMFULL;" + r.name + "]");
+					cplayer.socket.send("[ROOMFULL;" + r.name + "]");
 					console.log("[!] Room " + r.name + " is full");
 				}
 			}
 		});
 		if (roomExist == false)
 		{
-			cplayer.socket.write("[NOROOM;" + roomName + "]");	
+			cplayer.socket.send("[NOROOM;" + roomName + "]");
 			console.log("[!] Room " + roomName + " not found");
 		}
 	}
@@ -184,18 +184,25 @@ function Room(_name, _maxPlayer)
 	this.players = [];
 	this.roomState = 'WAITING'; // WAITING - READY - PLAYING - FINISHED
 	this.roomType = 'Type01'; // Check this in room.js to create more game types
-	
+
 	this.broadCast = function(message, _except)
 	{
 		this.players.forEach(function(p){
 			console.log("> Check " + p.name + " : " + _except.name);
 			if (p.name != _except.name)
 			{
-				p.socket.write(message);
+				p.socket.send(message);
 			}
 		});
 	}
-	
+	this.sendCommand = function(message)
+	{
+		this.players.forEach(function(p){
+			console.log("> Check " + p.name);
+				p.socket.send(message);
+		});
+	}
+
 	// Switch state
 	this.Wait = function()
 	{
@@ -205,7 +212,7 @@ function Room(_name, _maxPlayer)
 	{
 		return (this.roomState == "WAITING");
 	}
-	
+
 	this.Ready = function()
 	{
 		this.roomState = "READY";
@@ -214,7 +221,7 @@ function Room(_name, _maxPlayer)
 	{
 		return (this.roomState == "READY");
 	}
-	
+
 	this.Play = function()
 	{
 		this.roomState = "PLAYING";
@@ -223,7 +230,7 @@ function Room(_name, _maxPlayer)
 	{
 		return (this.roomState == "PLAYING");
 	}
-	
+
 	this.Finish = function()
 	{
 		this.roomState = "FINISHED";
@@ -232,7 +239,7 @@ function Room(_name, _maxPlayer)
 	{
 		return (this.roomState == "FINISHED");
 	}
-	
+
 }
 
 // Add remove function for arrays
@@ -246,7 +253,7 @@ Array.prototype.remove = function(e) {
 Array.prototype.find = function(name) {
 	for (var i = 0; i < this.length; i++) {
 		if (name == this[i].name) { return this[i]; }
-	}	
+	}
 };
 
 // Add trim feature
@@ -269,7 +276,7 @@ function BroadcastAll(message, except)
 	playerList.forEach(function(p){
 		if (p != except)
 		{
-			p.socket.write(message);
+			p.socket.send(message);
 		}
 	});
 }
@@ -280,9 +287,9 @@ function GlobalChat(message, except)
 		playerList.forEach(function(p){
 			if (p != except && p.room == null) // Only players in Global lobby can receive the message
 			{
-				p.socket.write(message);
+				p.socket.send(message);
 			}
-		});	
+		});
 	}
 }
 
@@ -304,21 +311,22 @@ setInterval(function(){
 					{
 						isAllReady = false;
 					}
-				});	
+				});
 				if (isAllReady)
 				{
 					r.Play();
 				}
 			}
-			roomScript.update(r);	
-		}	
+			roomScript.update(r);
+		}
 	});
-}, 10);
+}, 1000);
 
 // Main Server
-net.createServer(function(socket) {
+wss.on('connection', function connection(ws) {
     // Create new player on connected
-    var player = new Player(0, 0, "player-" + playerList.length, socket);
+   //response.writeHead(200);
+    var player = new Player(0, 0, "player-" + playerList.length, ws);
     // Add to PlayerList
     playerList.push(player);
 
@@ -329,8 +337,10 @@ net.createServer(function(socket) {
 
     // Process received data
     var receivedData = "";
-    socket.on('data', function(data) {
+   console.log(receivedData);
+    ws.on('message', function incoming(data) {
         receivedData = data + "";
+
     	console.log("[i] Data received: " + player.name + " said: " + receivedData);
 
     	// ==================SERVER PROCESSING============================
@@ -350,7 +360,7 @@ net.createServer(function(socket) {
     		roomList.forEach(function(r){
     			list += r.name;
     		});
-    		socket.write("[ROOMLIST;" + list + "]");
+    		ws.send("[ROOMLIST;" + list + "]");
     	}
     	if (receivedData.startsWith("[CREATEROOM;"))
     	{
@@ -391,7 +401,7 @@ net.createServer(function(socket) {
     	}
     	// ===================== EACH ROOM ================================
     	roomList.forEach(function(r){
-	    	roomScript.run(r, player, receivedData);	
+	    	roomScript.run(r, player, receivedData);
     	});
     	// ================================================================
 
@@ -399,9 +409,9 @@ net.createServer(function(socket) {
     });
 
     // Handle player disconnect event
-    socket.on('close', function(){
+      ws.on('close', function close() {
     	player.leaveRoom(); // Leave all room before disconnected
-    	
+
     	playerList.remove(player);
 
     	console.log("[!] " + player.name + " disconnected!");
@@ -409,13 +419,12 @@ net.createServer(function(socket) {
     	// Tell everyone Player disconnected
     	playerList.forEach(function(c){
     		// Send disconnect notify - MSG: [DC;<player name>]
-    		c.socket.write("[DISCONNECTED;" + player.name + "]");
+    		c.socket.send("[DISCONNECTED;" + player.name + "]");
     	});
     	// Close connection
-    	socket.end();
+    	ws.terminate();
     });
-    
-})
-.listen(serverPort);
 
-console.log("Server is running at port " + serverPort);
+})
+
+//console.log("Server is running at port " + serverPort);
