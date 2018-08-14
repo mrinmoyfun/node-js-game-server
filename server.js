@@ -85,7 +85,7 @@ var roomScript = require('./room.js');
 
 const WebSocket = require('ws');
 
-const wss = new WebSocket.Server({ port: process.env.PORT || 5000 });
+const wss = new WebSocket.Server({ port: 8080 });
 // Define Player class and player list
 var playerList = [];
 function Player(_x, _y, _name, _socket)
@@ -179,7 +179,7 @@ function Room(_name, _maxPlayer)
 {
 	console.log("[*] Creating room with params: {" + _name + ":" + _maxPlayer + "}");
 	this.name = _name;
-	this.maxPlayer = _maxPlayer;
+	this.maxPlayer = 2;
 	this.playerCount = 0;
 	this.players = [];
 	this.roomState = 'WAITING'; // WAITING - READY - PLAYING - FINISHED
@@ -325,6 +325,8 @@ setInterval(function(){
 // Main Server
 wss.on('connection', function connection(ws) {
     // Create new player on connected
+
+
    //response.writeHead(200);
     var player = new Player(0, 0, "player-" + playerList.length, ws);
     // Add to PlayerList
@@ -399,6 +401,10 @@ wss.on('connection', function connection(ws) {
     	{
 	    	player.Cancel();
     	}
+			if (receivedData.startsWith("[A]"))
+    	{
+	    	player.Cancel();
+    	}
     	// ===================== EACH ROOM ================================
     	roomList.forEach(function(r){
 	    	roomScript.run(r, player, receivedData);
@@ -427,4 +433,4 @@ wss.on('connection', function connection(ws) {
 
 })
 
-console.log("Server is running at port " + process.env.PORT);
+//console.log("Server is running at port " + serverPort);
