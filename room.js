@@ -19,16 +19,17 @@ function run(room, player, msg)
   {
 	  var ans = msg.substring(3, msg.length - 1);
     room.broadCast('{ "code" : "OPCHOICE" , "data" : "'+ans+'" }',player);
-    if (ans == json[m].correctans && player.y < m) {
+	  
+    if (ans == json[m-1].correctans && player.y < m-1) {
       player.x = player.x+10;
       room.sendCommand('{"code":"SCORE", "name":"'+player.name+'", "data":"'+player.x+'"}');
-      player.y = m;
-    } else if (player.y < m) {
+      player.y = m-1;
+    } else if (player.y < m-1) {
       player.x = player.x-5;
       room.sendCommand('{"code":"SCORE", "name":"'+player.name+'", "data":"'+player.x+'"}');
-      player.y = m;
+      player.y = m-1;
     }
-   if (room.players[0].y == m && room.players[1].y == m) {
+   if (room.players[0].y == m-1 && room.players[1].y == m-1) {
      i = 1;
    }
   }
