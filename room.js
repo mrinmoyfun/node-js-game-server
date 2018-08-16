@@ -13,35 +13,14 @@ var both = 0;
 
 function run(room, player, msg)
 {
-  const https = require('https');
-
-  https.get('https://pg.medgag.com/quiz/api/questions.php?topic_id=2', (resp) => {
-    let data = '';
-
-    // A chunk of data has been recieved.
-    resp.on('data', (chunk) => {
-      data += chunk;
-    });
-
-    // The whole response has been received. Print out the result.
-    resp.on('end', () => {
-      console.log(JSON.parse(data).questions[1]);
-      json = JSON.parse(data).questions;
-      //var t = JSON.stringify(JSON.parse(data).questions[1]);
-      //  BroadcastAll(t);
-    });
-
-  }).on("error", (err) => {
-    console.log("Error: " + err.message);
-  });
 	// Implement your game room (server side) logic here
 	console.log("Processing " + player.name + "@" + room.name + ": " + msg);
   if (msg.startsWith("[A]"))
   {
     room.broadCast("[1]",player);
-    if ('option1' == json[m].correctans) {
+    if ('option1' == json[m].correctans && player.y < m) {
       player.x = player.x+10;
-      room.sendCommand("[SCORE;]"+player.name+player.x);
+      room.sendCommand('{"code":"SCORE", "name":"'+player.name+'", "data":'+player.x+'}');
       player.y = m;
     }
    if (room.players[0].y == m && room.players[1].y == m) {
@@ -54,25 +33,66 @@ function run(room, player, msg)
 
 function update(room)
 {
+  if (both <  1){
+    both = both + 1;
+    const https = require('https');
+
+    https.get('https://pg.medgag.com/quiz/api/questions.php?topic_id=2', (resp) => {
+      let data = '';
+
+      // A chunk of data has been recieved.
+      resp.on('data', (chunk) => {
+        data += chunk;
+      });
+
+      // The whole response has been received. Print out the result.
+      resp.on('end', () => {
+        console.log(JSON.parse(data).questions[1]);
+        json = JSON.parse(data).questions;
+        var ques = JSON.stringify(json);
+        //room.sendCommand('{"code":"QUESTIONS", "data":'+ques+'}');
+
+        //var t = JSON.stringify(JSON.parse(data).questions[1]);
+        //  BroadcastAll(t);
+      });
+
+    }).on("error", (err) => {
+      console.log("Error: " + err.message);
+    });
+  }
 	// Update room
 	if (room.IsPlaying())
 	{
     if (i > 0) {
 		console.log("Room " + room.name + " is playing");
-    room.sendCommand(i);
+    room.sendCommand('{"code":"COUNT", "data" : "'+i+'"}');
     i = i -1
   } else if (i == 0) {
-    room.sendCommand("READY!");
+    room.sendCommand('{"code":"COUNT", "data" : "'+99+'"}');
     i = i -1
   } else {
     var t = JSON.stringify(json[m]);
-    room.sendCommand(t);
+    room.sendCommand('{"code":"QUESTION", "id":'+m+', "data":'+t+'}');
     m = m +1
     i = 20
   }
-  if (m == 6){
-    room.sendCommand("Result "+m);
-    room.Finish();
+
+  if (m == 7){
+    room.sendCommand('{"code":"RESULT", "data" : "result"}');
+    room.players.forEach(function(c){
+      // Send disconnect notify - MSG: [DC;<player name>]
+      c.Cancel();
+      c.automatch = false;
+
+    });
+    room.Ready();
+    json = null;
+    score1 = 0;
+   score2 = 0;
+    i = 5;
+     m = 0;
+     both = 0;
+    //room.Finish();
   }
 	}
 }
