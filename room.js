@@ -19,7 +19,7 @@ function run(room, player, msg)
   {
 	  var ans = msg.substring(3, msg.length - 1);
     room.broadCast("[1]",player);
-    if ('ans' == json[m].correctans && player.y < m) {
+    if (ans == json[m].correctans && player.y < m) {
       player.x = player.x+10;
       room.sendCommand('{"code":"SCORE", "name":"'+player.name+'", "data":"'+player.x+'"}');
       player.y = m;
