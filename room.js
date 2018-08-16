@@ -18,7 +18,7 @@ function run(room, player, msg)
   if (msg.startsWith("[A;"))
   {
 	  var ans = msg.substring(3, msg.length - 1);
-    room.broadCast("[1]",player);
+    room.broadCast('{ "code" : "OPCHOICE" , "data" : "'+ans+'" }',player);
     if (ans == json[m].correctans && player.y < m) {
       player.x = player.x+10;
       room.sendCommand('{"code":"SCORE", "name":"'+player.name+'", "data":"'+player.x+'"}');
