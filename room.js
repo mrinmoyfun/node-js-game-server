@@ -65,7 +65,7 @@ function update(room)
 	{
     if (i > 0) {
 		console.log("Room " + room.name + " is playing");
-    room.sendCommand('{"code":"COUNT", "data" : "'+i+'"}');
+    //room.sendCommand('{"code":"COUNT", "data" : "'+i+'"}');
     i = i -1
   } else if (i == 0) {
     room.sendCommand('{"code":"COUNT", "data" : "'+99+'"}');
