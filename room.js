@@ -15,11 +15,16 @@ function run(room, player, msg)
 {
 	// Implement your game room (server side) logic here
 	console.log("Processing " + player.name + "@" + room.name + ": " + msg);
-  if (msg.startsWith("[A]"))
+  if (msg.startsWith("[A;"))
   {
+	  var ans = msg.substring(3, msg.length - 1);
     room.broadCast("[1]",player);
-    if ('option1' == json[m].correctans && player.y < m) {
+    if ('ans' == json[m].correctans && player.y < m) {
       player.x = player.x+10;
+      room.sendCommand('{"code":"SCORE", "name":"'+player.name+'", "data":"'+player.x+'"}');
+      player.y = m;
+    } else if (player.y < m) {
+      player.x = player.x-5;
       room.sendCommand('{"code":"SCORE", "name":"'+player.name+'", "data":"'+player.x+'"}');
       player.y = m;
     }
