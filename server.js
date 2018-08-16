@@ -88,6 +88,7 @@ const WebSocket = require('ws');
 const wss = new WebSocket.Server({ port: process.env.PORT || 5000 });
 // Define Player class and player list
 var playerList = [];
+var autoList = [];
 function Player(_x, _y, _name, _socket)
 {
 	this.x = _x;
@@ -96,13 +97,14 @@ function Player(_x, _y, _name, _socket)
 	this.room = null;
 	this.socket = _socket;
 	this.is_ready = false;
+	this.automatch = false;
 
 	this.Ready = function()
 	{
 		if (this.room != null)
 		{
 			this.is_ready = true;
-			this.room.broadCast("[PLAYERREADY;" + this.name + "]", this); // Send ready message to all players
+			this.room.broadCast('{"code" : "PLAYERREADY", "name":"'+ this.name +'"}', this); // Send ready message to all players
 		}
 	}
 
@@ -111,7 +113,7 @@ function Player(_x, _y, _name, _socket)
 		if (this.room != null)
 		{
 			this.is_ready = false;
-			this.room.broadCast("[PLAYERCANCEL;" + this.name + "]", this); // Send cancel message to all players
+			this.room.broadCast('{"code" : "PLAYERCANCEL", "name":"'+ this.name +'"}', this); // Send cancel message to all players
 		}
 	}
 
@@ -139,19 +141,19 @@ function Player(_x, _y, _name, _socket)
 					}
 					cplayer.room = r;
 					console.log("[!] " + cplayer.name + " joined room " + r.name);
-					r.broadCast("[JOINROOM;" + cplayer.name + "]", cplayer);
-					cplayer.socket.send("[JOINEDROOM;" + r.name + "]");
+					r.broadCast('"code": "JOINROOM", "name":"'+ cplayer.name +'"}', cplayer);
+					cplayer.socket.send('"code": "JOINEDROOM", "name":"'+ r.name +'"}');
 				}
 				else
 				{
-					cplayer.socket.send("[ROOMFULL;" + r.name + "]");
+					cplayer.socket.send('"code": "ROOMFULL", "name":"'+ r.name +'"}');
 					console.log("[!] Room " + r.name + " is full");
 				}
 			}
 		});
 		if (roomExist == false)
 		{
-			cplayer.socket.send("[NOROOM;" + roomName + "]");
+			cplayer.socket.send('"code": "NOROOM", "name":"'+ roomName +'"}');
 			console.log("[!] Room " + roomName + " not found");
 		}
 	}
@@ -166,7 +168,7 @@ function Player(_x, _y, _name, _socket)
 			{
 				this.room.Wait();
 			}
-			this.room.broadCast("[LEFTROOM;" + this.name + "]", this);
+			this.room.broadCast('{"code": "LEFTROOM", "name":"'+ this.name +'"}', this);
 			console.log("[!] " + this.name + " left room " + this.room.name);
 			this.room = null;
 		}
@@ -320,6 +322,31 @@ setInterval(function(){
 			roomScript.update(r);
 		}
 	});
+
+	playerList.forEach(function(r){
+		if (r.automatch == true) {
+			autoList.push(r);
+			r.automatch = false;
+		}
+		if (autoList.length > 1){
+		console.log("matched"+autoList[0].name+autoList[1].name);
+
+			var room = new Room("room-" + roomList.length, 2);
+			roomList.push(room);
+			console.log("[+] Room " + room.name + " created by " + autoList[0].name);
+			autoList[0].leaveRoom();
+			autoList[0].joinRoom(room.name);
+			autoList[1].leaveRoom();
+			autoList[1].joinRoom(room.name);
+			autoList.remove(autoList[0]);
+				autoList.remove(autoList[0]);
+		}
+
+	});
+
+
+
+
 }, 1000);
 
 // Main Server
@@ -333,9 +360,10 @@ wss.on('connection', function connection(ws) {
     playerList.push(player);
 
     console.log("[!] " + player.name + " connected!");
+		ws.send('{"code" : "SELFCONNECTED", "name":"'+player.name+'"}')
 
     // Tell everybody the newcomer
-    BroadcastAll("[CONNECTED;" + player.name + "]", player);
+    BroadcastAll('{"code" : "CONNECTED", "name":"'+player.name+'"}', player);
 
     // Process received data
     var receivedData = "";
@@ -351,7 +379,7 @@ wss.on('connection', function connection(ws) {
     	{
     		// Broadcast
     		var chat = receivedData.substring(6, receivedData.length - 1);
-    		GlobalChat("[CHAT;" + player.name + ";" + chat + "]", player);
+    		GlobalChat('{"code" : "CHAT", "name":"'+ player.name +'","chat": "' + chat + '"}', player);
     	}
 
     	// Basic Room function: Get list, create, join, leave, chat in room
@@ -363,6 +391,15 @@ wss.on('connection', function connection(ws) {
     			list += r.name;
     		});
     		ws.send("[ROOMLIST;" + list + "]");
+    	}
+			if (receivedData.startsWith("[PLAYERS]"))
+    	{
+    		var list = "";
+    		// Get room list
+    		playerList.forEach(function(r){
+    			list += r.name;
+    		});
+    		ws.send("[PLAYERS;" + list + "]");
     	}
     	if (receivedData.startsWith("[CREATEROOM;"))
     	{
@@ -391,7 +428,7 @@ wss.on('connection', function connection(ws) {
     	{
     		// Broadcast
     		var chat = receivedData.substring(10, receivedData.length - 1);
-    		player.room.broadCast("[CHATROOM;" + player.name + ";" + chat + "]", player);
+    		player.room.broadCast('{"code" : "CHATROOM", "name":"'+ player.name +'","chat": "' + chat + '"}', player);
     	}
     	if (receivedData.startsWith("[READY]"))
     	{
@@ -401,13 +438,26 @@ wss.on('connection', function connection(ws) {
     	{
 	    	player.Cancel();
     	}
-			if (receivedData.startsWith("[A]"))
+			if (receivedData.startsWith("[AUTOMATCH]"))
     	{
-	    	player.Cancel();
+	    	player.automatch = true;
+
     	}
     	// ===================== EACH ROOM ================================
     	roomList.forEach(function(r){
-	    	roomScript.run(r, player, receivedData);
+				var isAllReady = true;
+				r.players.forEach(function(p){
+					if (p.is_ready == false)
+					{
+						isAllReady = false;
+					}
+				});
+
+				if (isAllReady)
+				{
+					roomScript.run(r, player, receivedData);
+				}
+
     	});
     	// ================================================================
 
@@ -425,7 +475,7 @@ wss.on('connection', function connection(ws) {
     	// Tell everyone Player disconnected
     	playerList.forEach(function(c){
     		// Send disconnect notify - MSG: [DC;<player name>]
-    		c.socket.send("[DISCONNECTED;" + player.name + "]");
+    		c.socket.send('{"code" : "DISCONNECTED", "name":"'+ player.name +'"}');
     	});
     	// Close connection
     	ws.terminate();
