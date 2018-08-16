@@ -20,7 +20,7 @@ function run(room, player, msg)
     room.broadCast("[1]",player);
     if ('option1' == json[m].correctans && player.y < m) {
       player.x = player.x+10;
-      room.sendCommand('{"code":"SCORE", "name":"'+player.name+'", "data":'+player.x+'}');
+      room.sendCommand('{"code":"SCORE", "name":"'+player.name+'", "data":"'+player.x+'"}');
       player.y = m;
     }
    if (room.players[0].y == m && room.players[1].y == m) {
