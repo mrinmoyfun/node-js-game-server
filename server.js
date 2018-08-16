@@ -104,7 +104,7 @@ function Player(_x, _y, _name, _socket)
 		if (this.room != null)
 		{
 			this.is_ready = true;
-			this.room.broadCast('{"code" : "PLAYERREADY", "name":"'+ this.name +'"}', this); // Send ready message to all players
+			this.room.broadCast('{"code" : "PLAYERREADY", "name" : "'+ this.name +'"}', this); // Send ready message to all players
 		}
 	}
 
@@ -113,7 +113,7 @@ function Player(_x, _y, _name, _socket)
 		if (this.room != null)
 		{
 			this.is_ready = false;
-			this.room.broadCast('{"code" : "PLAYERCANCEL", "name":"'+ this.name +'"}', this); // Send cancel message to all players
+			this.room.broadCast('{"code" : "PLAYERCANCEL", "name" : "'+ this.name +'"}', this); // Send cancel message to all players
 		}
 	}
 
@@ -141,19 +141,19 @@ function Player(_x, _y, _name, _socket)
 					}
 					cplayer.room = r;
 					console.log("[!] " + cplayer.name + " joined room " + r.name);
-					r.broadCast('"code": "JOINROOM", "name":"'+ cplayer.name +'"}', cplayer);
-					cplayer.socket.send('"code": "JOINEDROOM", "name":"'+ r.name +'"}');
+					r.broadCast('"code" : "JOINROOM", "name" : "'+ cplayer.name +'"}', cplayer);
+					cplayer.socket.send('"code" : "JOINEDROOM", "name" : "'+ r.name +'"}');
 				}
 				else
 				{
-					cplayer.socket.send('"code": "ROOMFULL", "name":"'+ r.name +'"}');
+					cplayer.socket.send('"code" : "ROOMFULL", "name" : "'+ r.name +'"}');
 					console.log("[!] Room " + r.name + " is full");
 				}
 			}
 		});
 		if (roomExist == false)
 		{
-			cplayer.socket.send('"code": "NOROOM", "name":"'+ roomName +'"}');
+			cplayer.socket.send('"code" : "NOROOM", "name" : "'+ roomName +'"}');
 			console.log("[!] Room " + roomName + " not found");
 		}
 	}
@@ -168,7 +168,7 @@ function Player(_x, _y, _name, _socket)
 			{
 				this.room.Wait();
 			}
-			this.room.broadCast('{"code": "LEFTROOM", "name":"'+ this.name +'"}', this);
+			this.room.broadCast('{"code" : "LEFTROOM", "name" : "'+ this.name +'"}', this);
 			console.log("[!] " + this.name + " left room " + this.room.name);
 			this.room = null;
 		}
@@ -360,10 +360,10 @@ wss.on('connection', function connection(ws) {
     playerList.push(player);
 
     console.log("[!] " + player.name + " connected!");
-		ws.send('{"code" : "SELFCONNECTED", "name":"'+player.name+'"}')
+		ws.send('{"code" : "SELFCONNECTED", "name" : "'+player.name+'"}')
 
     // Tell everybody the newcomer
-    BroadcastAll('{"code" : "CONNECTED", "name":"'+player.name+'"}', player);
+    BroadcastAll('{"code" : "CONNECTED", "name" : "'+player.name+'"}', player);
 
     // Process received data
     var receivedData = "";
@@ -379,7 +379,7 @@ wss.on('connection', function connection(ws) {
     	{
     		// Broadcast
     		var chat = receivedData.substring(6, receivedData.length - 1);
-    		GlobalChat('{"code" : "CHAT", "name":"'+ player.name +'","chat": "' + chat + '"}', player);
+    		GlobalChat('{"code" : "CHAT", "name" : "'+ player.name +'","chat" : "' + chat + '"}', player);
     	}
 
     	// Basic Room function: Get list, create, join, leave, chat in room
@@ -428,7 +428,7 @@ wss.on('connection', function connection(ws) {
     	{
     		// Broadcast
     		var chat = receivedData.substring(10, receivedData.length - 1);
-    		player.room.broadCast('{"code" : "CHATROOM", "name":"'+ player.name +'","chat": "' + chat + '"}', player);
+    		player.room.broadCast('{"code" : "CHATROOM", "name" : "'+ player.name +'","chat" : "' + chat + '"}', player);
     	}
     	if (receivedData.startsWith("[READY]"))
     	{
@@ -475,7 +475,7 @@ wss.on('connection', function connection(ws) {
     	// Tell everyone Player disconnected
     	playerList.forEach(function(c){
     		// Send disconnect notify - MSG: [DC;<player name>]
-    		c.socket.send('{"code" : "DISCONNECTED", "name":"'+ player.name +'"}');
+    		c.socket.send('{"code" : "DISCONNECTED", "name" : "'+ player.name +'"}');
     	});
     	// Close connection
     	ws.terminate();
