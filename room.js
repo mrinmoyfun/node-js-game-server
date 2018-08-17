@@ -34,10 +34,6 @@ function run(room, player, msg)
 	    d = d + 1;
     }
 	  
-	  if (d == 2){
-		  i = 1;
-		  done = 0;
-	  }
    //if (room.players[0].y == p && room.players[1].y == p) {
    //  i = 1;
   // }
@@ -48,6 +44,11 @@ function run(room, player, msg)
 
 function update(room)
 {
+	
+	  if (d == 2){
+		  i = 1;
+		  done = 0;
+	  }
   if (both <  1){
     both = both + 1;
     const https = require('https');
