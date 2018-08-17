@@ -90,6 +90,7 @@ function update(room)
     var t = JSON.stringify(json[m]);
     room.sendCommand('{"code":"QUESTION", "id":'+m+', "data":'+t+'}');
     m = m +1
+    d = 0;	  
     i = 20
   }
 
