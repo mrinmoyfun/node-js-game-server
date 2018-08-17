@@ -45,7 +45,7 @@ function run(room, player, msg)
 function update(room)
 {
 	
-	  if (d == 2){
+	  if (d > 1){
 		  i = 1;
 		  d = 0;
 	  }
@@ -101,13 +101,14 @@ function update(room)
       c.automatch = false;
 
     });
-    room.Ready();
+    room.Finish();
     json = null;
     score1 = 0;
    score2 = 0;
     i = 5;
      m = 0;
      both = 0;
+     d = 0;	  
     //room.Finish();
   }
 	}
