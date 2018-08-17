@@ -6,7 +6,7 @@ Email: kingbazoka@gmail.com
 var json = null;
 var score1 = 0;
 var score2 = 0;
-var i = 5;
+var i = 2;
 var m = 0;
 var both = 0;
 var d = 0;
