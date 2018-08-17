@@ -141,19 +141,19 @@ function Player(_x, _y, _name, _socket)
 					}
 					cplayer.room = r;
 					console.log("[!] " + cplayer.name + " joined room " + r.name);
-					r.broadCast('"code" : "JOINROOM", "name" : "'+ cplayer.name +'"}', cplayer);
-					cplayer.socket.send('"code" : "JOINEDROOM", "name" : "'+ r.name +'"}');
+					r.broadCast('{ "code" : "JOINROOM", "name" : "'+ cplayer.name +'"}', cplayer);
+					cplayer.socket.send('{ "code" : "JOINEDROOM", "name" : "'+ r.name +'"}');
 				}
 				else
 				{
-					cplayer.socket.send('"code" : "ROOMFULL", "name" : "'+ r.name +'"}');
+					cplayer.socket.send('{ "code" : "ROOMFULL", "name" : "'+ r.name +'"}');
 					console.log("[!] Room " + r.name + " is full");
 				}
 			}
 		});
 		if (roomExist == false)
 		{
-			cplayer.socket.send('"code" : "NOROOM", "name" : "'+ roomName +'"}');
+			cplayer.socket.send('{ "code" : "NOROOM", "name" : "'+ roomName +'"}');
 			console.log("[!] Room " + roomName + " not found");
 		}
 	}
@@ -168,7 +168,7 @@ function Player(_x, _y, _name, _socket)
 			{
 				this.room.Wait();
 			}
-			this.room.broadCast('{"code" : "LEFTROOM", "name" : "'+ this.name +'"}', this);
+			this.room.broadCast('{ "code" : "LEFTROOM", "name" : "'+ this.name +'"}', this);
 			console.log("[!] " + this.name + " left room " + this.room.name);
 			this.room = null;
 		}
