@@ -22,16 +22,16 @@ function run(room, player, msg)
     room.broadCast('{ "code" : "OPCHOICE" , "data" : "'+ans+'" }',player);
 	var p = m-1;  
 	  console.log("Processing " + player.name + "@" + room.name + ": " + p);
-    if (ans == json[p].correctans && player.y < p) {
+    if (ans == json[p].correctans && player.y < m) {
       player.x = player.x+10;
       room.sendCommand('{"code":"SCORE", "name":"'+player.name+'", "data":"'+player.x+'"}');
-      player.y = p;
+      player.y = m;
 	    d = d + 1;
-    } else if (player.y < p) {
+    } else if (player.y < m) {
       player.x = player.x-5;
       room.sendCommand('{"code":"SCORE", "name":"'+player.name+'", "data":"'+player.x+'"}');
-      player.y = p;
-	    d = d + 1;
+      player.y = m;
+      d = d + 1;
     }
 	  
    //if (room.players[0].y == p && room.players[1].y == p) {
@@ -47,7 +47,7 @@ function update(room)
 	
 	  if (d == 2){
 		  i = 1;
-		  done = 0;
+		  d = 0;
 	  }
   if (both <  1){
     both = both + 1;
