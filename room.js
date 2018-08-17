@@ -9,6 +9,7 @@ var score2 = 0;
 var i = 5;
 var m = 0;
 var both = 0;
+var done = 0;
 
 
 function run(room, player, msg)
@@ -30,9 +31,20 @@ function run(room, player, msg)
       room.sendCommand('{"code":"SCORE", "name":"'+player.name+'", "data":"'+player.x+'"}');
       player.y = p;
     }
-   if (room.players[0].y == p && room.players[1].y == p) {
-     i = 1;
-   }
+	   room.players.forEach(function(c){
+      // Send disconnect notify - MSG: [DC;<player name>]
+      if (c.y == p) {
+	   done = done + 1;   
+      }
+
+    });
+	  if (done == 2){
+		  i = 1;
+		  done = 0;
+	  }
+   //if (room.players[0].y == p && room.players[1].y == p) {
+   //  i = 1;
+  // }
   }
 
 
