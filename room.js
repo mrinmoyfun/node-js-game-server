@@ -14,22 +14,23 @@ var both = 0;
 function run(room, player, msg)
 {
 	// Implement your game room (server side) logic here
-	console.log("Processing " + player.name + "@" + room.name + ": " + msg);
+	
   if (msg.startsWith("[A;"))
   {
 	  var ans = msg.substring(3, msg.length - 1);
     room.broadCast('{ "code" : "OPCHOICE" , "data" : "'+ans+'" }',player);
-	  
-    if (ans == json[m-1].correctans && player.y < m-1) {
+	var p = m-1;  
+	  console.log("Processing " + player.name + "@" + room.name + ": " + p);
+    if (ans == json[p].correctans && player.y < p) {
       player.x = player.x+10;
       room.sendCommand('{"code":"SCORE", "name":"'+player.name+'", "data":"'+player.x+'"}');
-      player.y = m-1;
-    } else if (player.y < m-1) {
+      player.y = p;
+    } else if (player.y < p) {
       player.x = player.x-5;
       room.sendCommand('{"code":"SCORE", "name":"'+player.name+'", "data":"'+player.x+'"}');
-      player.y = m-1;
+      player.y = p;
     }
-   if (room.players[0].y == m-1 && room.players[1].y == m-1) {
+   if (room.players[0].y == p && room.players[1].y == p) {
      i = 1;
    }
   }
