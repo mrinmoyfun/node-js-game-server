@@ -192,6 +192,11 @@ function Room(_name, _maxPlayer)
 	this.players = [];
 	this.roomState = 'WAITING'; // WAITING - READY - PLAYING - FINISHED
 	this.roomType = 'Type01'; // Check this in room.js to create more game types
+	this.json = null;
+        this.i = 2;
+        this.m = 0;
+        this.both = 0;
+        this.d = 0;
 
 	this.broadCast = function(message, _except)
 	{
