@@ -97,7 +97,15 @@ function update(room)
   }
 
   if (room.m == 7){
-    room.sendCommand('{"code":"RESULT", "data" : "result"}');
+	  if (room.players[0].x > room.players[1].x ) {
+		  room.sendCommand('{"code":"RESULT", "data" : "Winner", "name" : "'+room.players[0].name+'"}');
+	  } else if (room.players[0].x < room.players[1].x ) {
+		  room.sendCommand('{"code":"RESULT", "data" : "Winner", "name" : "'+room.players[1].name+'"}');
+	  } else if (room.players[0].x == room.players[1].x ) {
+		  room.sendCommand('{"code":"RESULT", "data" : "Draw"}');
+	  } else {
+                  room.sendCommand('{"code":"RESULT", "data" : "error"}');
+	  }
     room.players.forEach(function(c){
       // Send disconnect notify - MSG: [DC;<player name>]
       c.Cancel();
