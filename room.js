@@ -18,20 +18,22 @@ function run(room, player, msg)
 	
   if (msg.startsWith("[A;"))
   {
-	  var ans = msg.substring(3, msg.length - 1);
+	  player.ans = msg.substring(3, msg.length - 1);
     room.broadCast('{ "code" : "OPCHOICE" , "data" : "'+ans+'" }',player);
 	var p = room.m-1;  
 	  console.log("Processing " + player.name + "@" + room.name + ": " + p);
-    if (ans == json[p].correctans && player.y < room.m) {
+    if (player.ans == room.json[p].correctans && player.y < room.m) {
       player.x = player.x+10;
       room.sendCommand('{"code":"SCORE", "name":"'+player.name+'", "data":"'+player.x+'"}');
       player.y = room.m;
 	    room.d = room.d + 1;
-    } else if (player.y < room.m) {
+	    player.ans = null;
+    } else if (player.y < room.m && !player.ans == null) {
       player.x = player.x-5;
       room.sendCommand('{"code":"SCORE", "name":"'+player.name+'", "data":"'+player.x+'"}');
       player.y = room.m;
       room.d = room.d + 1;
+	    player.ans = null;
     }
 	  
    //if (room.players[0].y == p && room.players[1].y == p) {
@@ -64,7 +66,7 @@ function update(room)
       // The whole response has been received. Print out the result.
       resp.on('end', () => {
         //console.log(JSON.parse(data).questions[1]);
-        json = JSON.parse(data).questions;
+        room.json = JSON.parse(data).questions;
         var ques = JSON.stringify(json);
         //room.sendCommand('{"code":"QUESTIONS", "data":'+ques+'}');
 
@@ -87,7 +89,7 @@ function update(room)
     room.sendCommand('{"code":"COUNT", "data" : "'+99+'"}');
     room.i = room.i -1
   } else {
-    var t = JSON.stringify(json[room.m]);
+    var t = JSON.stringify(room.json[room.m]);
     room.sendCommand('{"code":"QUESTION", "id":'+room.m+', "data":'+t+'}');
     room.m = room.m +1
     room.d = 0;	  
