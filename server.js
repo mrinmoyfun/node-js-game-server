@@ -98,6 +98,7 @@ function Player(_x, _y, _name, _socket)
 	this.socket = _socket;
 	this.is_ready = false;
 	this.automatch = false;
+	this.ans = null;
 
 	this.Ready = function()
 	{
