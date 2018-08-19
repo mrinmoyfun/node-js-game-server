@@ -67,7 +67,7 @@ function update(room)
       resp.on('end', () => {
         //console.log(JSON.parse(data).questions[1]);
         room.json = JSON.parse(data).questions;
-        var ques = JSON.stringify(json);
+        //var ques = JSON.stringify(room.json);
         //room.sendCommand('{"code":"QUESTIONS", "data":'+ques+'}');
 
         //var t = JSON.stringify(JSON.parse(data).questions[1]);
