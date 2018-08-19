@@ -28,7 +28,7 @@ function run(room, player, msg)
       player.y = room.m;
 	    room.d = room.d + 1;
 	    player.ans = null;
-    } else if (player.y < room.m && !player.ans == null) {
+    } else if (player.y < room.m && player.ans !== null) {
       player.x = player.x-5;
       room.sendCommand('{"code":"SCORE", "name":"'+player.name+'", "data":"'+player.x+'"}');
       player.y = room.m;
