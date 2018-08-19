@@ -374,7 +374,7 @@ wss.on('connection', function connection(ws) {
 		ws.send('{"code" : "SELFCONNECTED", "name" : "'+player.name+'"}')
 
     // Tell everybody the newcomer
-    BroadcastAll('{"code" : "CONNECTED", "name" : "'+player.name+'"}', player);
+   // BroadcastAll('{"code" : "CONNECTED", "name" : "'+player.name+'"}', player);
 
     // Process received data
     var receivedData = "";
