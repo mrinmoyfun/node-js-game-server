@@ -289,7 +289,13 @@ function GlobalChat(message, except)
 		playerList.forEach(function(p){
 			if (p != except && p.room == null) // Only players in Global lobby can receive the message
 			{
+				try {
+				if (p.socket != WebSocket.CLOSED) {
 				p.socket.send(message);
+				}
+				} catch(e) {
+					console.log(e);
+				}
 			}
 		});
 	}
