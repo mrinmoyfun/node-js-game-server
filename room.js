@@ -19,7 +19,7 @@ function run(room, player, msg)
   if (msg.startsWith("[A;"))
   {
 	  player.ans = msg.substring(3, msg.length - 1);
-    room.broadCast('{ "code" : "OPCHOICE" , "data" : "'+ans+'" }',player);
+    room.broadCast('{ "code" : "OPCHOICE" , "data" : "'+player.ans+'" }',player);
 	var p = room.m-1;  
 	  console.log("Processing " + player.name + "@" + room.name + ": " + p);
     if (player.ans == room.json[p].correctans && player.y < room.m) {
