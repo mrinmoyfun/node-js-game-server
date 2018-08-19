@@ -142,7 +142,13 @@ function Player(_x, _y, _name, _socket)
 					cplayer.room = r;
 					console.log("[!] " + cplayer.name + " joined room " + r.name);
 					r.broadCast('{ "code" : "JOINROOM", "name" : "'+ cplayer.name +'"}', cplayer);
+					 try {
+				         if (cplayer.socket != WebSocket.CLOSED) {
 					cplayer.socket.send('{ "code" : "JOINEDROOM", "name" : "'+ r.name +'"}');
+						 }
+				        } catch(e) {
+					console.log(e);
+				        }
 				}
 				else
 				{
