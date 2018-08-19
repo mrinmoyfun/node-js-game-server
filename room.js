@@ -21,8 +21,8 @@ function run(room, player, msg)
 	  player.ans = msg.substring(3, msg.length - 1);
     room.broadCast('{ "code" : "OPCHOICE" , "data" : "'+player.ans+'" }',player);
 	var p = room.m-1;  
-	  console.log("Processing " + player.name + "@" + room.name + ": " + p);
-    if (player.ans == room.json[p].correctans && player.y < room.m) {
+	  console.log("Processing " + player.name + "@" + room.name + ": " + room.m-1);
+    if (player.ans == room.json[room.m-1].correctans && player.y < room.m) {
       player.x = player.x+10;
       room.sendCommand('{"code":"SCORE", "name":"'+player.name+'", "data":"'+player.x+'"}');
       player.y = room.m;
