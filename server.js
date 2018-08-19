@@ -484,9 +484,9 @@ wss.on('connection', function connection(ws) {
     // Handle player disconnect event
       ws.on('close', function close() {
     	player.leaveRoom(); // Leave all room before disconnected
-
+     
     	playerList.remove(player);
-
+        autoList.remove(player)
     	console.log("[!] " + player.name + " disconnected!");
 
     	// Tell everyone Player disconnected
