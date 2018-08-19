@@ -277,8 +277,13 @@ function BroadcastAll(message, except)
 {
 	playerList.forEach(function(p){
 		if (p != except)
-		{
-			p.socket.send(message);
+		{               try {
+				if (p.socket != WebSocket.CLOSED) {
+			        p.socket.send(message);
+					}
+				} catch(e) {
+					console.log(e);
+				}
 		}
 	});
 }
