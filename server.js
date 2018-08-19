@@ -475,7 +475,7 @@ wss.on('connection', function connection(ws) {
     	// Tell everyone Player disconnected
     	playerList.forEach(function(c){
     		// Send disconnect notify - MSG: [DC;<player name>]
-    		c.socket.send('{"code" : "DISCONNECTED", "name" : "'+ player.name +'"}');
+    		//c.socket.send('{"code" : "DISCONNECTED", "name" : "'+ player.name +'"}');
     	});
     	// Close connection
     	ws.terminate();
