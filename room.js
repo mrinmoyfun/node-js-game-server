@@ -55,7 +55,7 @@ function update(room)
     room.both = room.both + 1;
     const https = require('https');
 
-    https.get('http://pg.medgag.com/quiz/api/random.php?topic_id=2', (resp) => {
+    https.get('https://pg.medgag.com/quiz/api/random.php?topic_id=2', (resp) => {
       let data = '';
 
       // A chunk of data has been recieved.
