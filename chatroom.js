@@ -1,6 +1,6 @@
-import { Room, Client } from "colyseus";
+const colyseus = require('colyseus');
 
-export class ChatRoom extends Room {
+exports.MyRoom = class extends colyseus.Room {
     // this room supports only 4 clients connected
     maxClients = 4;
 
