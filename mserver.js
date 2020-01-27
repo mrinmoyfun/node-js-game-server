@@ -1,21 +1,36 @@
-const colyseus = require("colyseus");
-const http = require("http");
-const express = require("express");
+const http = require('http');
+const express = require('express');
+const cors = require('cors');
+const colyseus = require('colyseus');
+const monitor = require("@colyseus/monitor").monitor;
+// const socialRoutes = require("@colyseus/social/express").default;
+
+const Chatroom = require('./chatroom').ChatRoom;
+
 const port = process.env.PORT || 5000;
+const app = express()
 
-import { ChatRoom } from "./chatroom";
-
-const app = express();
+app.use(cors());
 app.use(express.json());
 
+const server = http.createServer(app);
 const gameServer = new colyseus.Server({
-  server: http.createServer(app)
+  server: server,
 });
-// Register ChatRoom as "chat"
-gameServer.define("chat", ChatRoom);
 
-gameServer.onShutdown(function(){
-  console.log(`game server is going down.`);
-});
+// register your room handlers
+gameServer.define('my_room', MyRoom);
+
+/**
+ * Register @colyseus/social routes
+ *
+ * - uncomment if you want to use default authentication (https://docs.colyseus.io/authentication/)
+ * - also uncomment the require statement
+ */
+// app.use("/", socialRoutes);
+
+// register colyseus monitor AFTER registering your room handlers
+app.use("/colyseus", monitor());
 
 gameServer.listen(port);
+console.log(`Listening on ws://localhost:${ port }`)
