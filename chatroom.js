@@ -6,6 +6,9 @@ exports.MyRoom = class extends colyseus.Room {
     maxClients = 2;
     delayedInterval = colyseus.Delayed;
     mClients = colyseus.Clients;
+     this.state = {
+            countdown: 0
+     };
 
     // When room is initialized
     onCreate(options) {
