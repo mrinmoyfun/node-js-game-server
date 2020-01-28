@@ -5,6 +5,7 @@ exports.MyRoom = class extends colyseus.Room {
     // this room supports only 4 clients connected
     maxClients = 2;
     delayedInterval = colyseus.Delayed;
+    mClients = colyseus.Clients;
 
     // When room is initialized
     onCreate(options) {
@@ -29,7 +30,7 @@ exports.MyRoom = class extends colyseus.Room {
   
 
     onJoin (client) {
-        this.broadcast(this.clients);
+        this.broadcast(this.mClients);
     }
     async onLeave (client, consented) {
   // flag client as inactive for other users
