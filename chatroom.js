@@ -45,10 +45,11 @@ exports.MyRoom = class extends colyseus.Room {
   console.log(`statusCode: ${res.statusCode}`)
 
   res.on('data', d => {
-    //data = JSON.parse(d).questions;
+   
       var decoded_data = d.toString('utf8');
       console.log(d);
-      this.broadcast(decoded_data);
+      data = JSON.parse(decoded_data).questions;
+      this.broadcast(data);
   })
 
 
