@@ -29,9 +29,15 @@ exports.MyRoom = class extends colyseus.Room {
 
   
 
-    onJoin (room , client) {
-        this.broadcast(client.roomId);
+    onJoin (client) {
+    if (this.clients.length === 2) {
+        // change the state to notify clients the game has been started
+        this.broadcast("Full Play Start ");
+
+        // additionally, you may lock the room to prevent new clients from joining it
+        //this.lock()
     }
+}
     async onLeave (client, consented) {
   // flag client as inactive for other users
  // this.state.players[client.sessionId].connected = false;
