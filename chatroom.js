@@ -51,7 +51,7 @@ exports.MyRoom = class extends colyseus.Room {
       // The whole response has been received. Print out the result.
       res.on('end', () => {
         //console.log(JSON.parse(data).questions[1]);
-        var ff = JSON.parse(data).questions;
+        var ff = JSON.parse(data);
           var decoded_data = data.toString('utf8');
             console.log(decoded_data);
       this.broadcast(ff);
