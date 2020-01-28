@@ -35,17 +35,7 @@ exports.MyRoom = class extends colyseus.Room {
          
     if (this.clients.length === 2) {
         let data = '';
-    const https = require('https');
-    https.get('http://pg.medgag.com/quiz/api/random.php?topic_id=7', (resp) => {
-      
-      resp.on('end', (data) => {
-       data = JSON.parse(data).questions;      
-      });
-
-    }).on("error", (err) => {
-      console.log("Error: " + err.message);
-    });
-  }
+  
         this.setState({
         countdown: 0,
         data: data
