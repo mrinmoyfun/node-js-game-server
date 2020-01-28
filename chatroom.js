@@ -4,7 +4,7 @@ import { Client, Delayed } from "colyseus";
 exports.MyRoom = class extends colyseus.Room {
     // this room supports only 4 clients connected
     maxClients = 2;
-    public delayedInterval!: Delayed;
+    public delayedInterval = Delayed;
 
     // When room is initialized
     onCreate(options) {
