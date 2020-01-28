@@ -2,7 +2,7 @@ const colyseus = require('colyseus');
 
 exports.MyRoom = class extends colyseus.Room {
     // this room supports only 4 clients connected
-    maxClients = 4;
+    maxClients = 2;
 
     onCreate (options) {
         console.log("BasicRoom created!", options);
