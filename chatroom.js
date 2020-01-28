@@ -35,7 +35,27 @@ exports.MyRoom = class extends colyseus.Room {
          
     if (this.clients.length === 2) {
         let data = '';
-  
+          const https = require('https');
+        const options = {
+  hostname: 'pg.medgag.com',
+  port: 443,
+  path: '/quiz/api/random.php?topic_id=7',
+  method: 'GET'
+}
+   const req = https.request(options, res => {
+  console.log(`statusCode: ${res.statusCode}`)
+
+  res.on('data', d => {
+    process.stdout.write(d)
+  })
+})
+
+req.on('error', error => {
+  console.error(error)
+})
+
+req.end()
+        
         this.setState({
         countdown: 0,
         data: data
