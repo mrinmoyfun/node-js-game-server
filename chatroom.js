@@ -48,11 +48,12 @@ exports.MyRoom = class extends colyseus.Room {
     //data = JSON.parse(d).questions;
       this.broadcast(d);
   })
-})
+
 
 req.on('error', error => {
    this.broadcast(error);
 })
+       })
 
 req.end()
         
