@@ -38,7 +38,7 @@ exports.MyRoom = class extends colyseus.Room {
 
     onMessage (client, data) {
         console.log("BasicRoom received message from", client.sessionId, ":", data);
-        this.broadcast(data.message );
+        this.broadcast(data.message, { except: client });
     }
 
     onDispose () {
