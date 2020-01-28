@@ -73,10 +73,7 @@ req.end()
     this.broadcast("Count " + this.state.countdown );
     if (this.state.countdown === 0) {
       this.countdownInterval.clear();
-        this.setState({
-        countdown: 0,
-        start: true
-      })
+      this.state.start = true;
       this.broadcast("Game Started ");
     }
   }, 1000);
