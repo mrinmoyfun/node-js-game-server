@@ -54,7 +54,7 @@ exports.MyRoom = class extends colyseus.Room {
     });
   }
         this.setState({
-        countdown: 0,
+        countdown: 0
       })
         // change the state to notify clients the game has been started
         this.broadcast("Full Play Start ");
