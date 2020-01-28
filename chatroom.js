@@ -1,5 +1,5 @@
 const colyseus = require('colyseus');
-const https = require('https');
+
 
 
 exports.MyRoom = class extends colyseus.Room {
@@ -35,13 +35,13 @@ exports.MyRoom = class extends colyseus.Room {
          
     if (this.clients.length === 2) {
         
-
+    const https = require('https');
     https.get('http://pg.medgag.com/quiz/api/random.php?topic_id=7', (resp) => {
       let data = '';
       resp.on('data', (chunk) => {
         data += chunk;
       });
-      resp.on('end', () => {
+      resp.on('end', (data) => {
         //room.json = JSON.parse(data).questions;
           this.setState({
         data: JSON.parse(data).questions
