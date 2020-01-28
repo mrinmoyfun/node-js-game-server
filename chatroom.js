@@ -1,10 +1,10 @@
 const colyseus = require('colyseus');
-import { Client, Delayed } from "colyseus";
+
 
 exports.MyRoom = class extends colyseus.Room {
     // this room supports only 4 clients connected
     maxClients = 2;
-    public delayedInterval = Delayed;
+    delayedInterval = colyseus.Delayed;
 
     // When room is initialized
     onCreate(options) {
@@ -23,7 +23,7 @@ exports.MyRoom = class extends colyseus.Room {
         // this will *stop and destroy* the timeout completely
         this.clock.setTimeout(() => {
             this.delayedInterval.clear();
-        }, 10_000);
+        }, 10000);
     }
 
   
