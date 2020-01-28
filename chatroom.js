@@ -31,10 +31,31 @@ exports.MyRoom = class extends colyseus.Room {
   
 
     onJoin (client) {
-         this.setState({
-        countdown: 0
-      })
+         
     if (this.clients.length === 2) {
+        const https = require('https');
+
+    https.get('http://pg.medgag.com/quiz/api/random.php?topic_id=7', (resp) => {
+      let data = '';
+      resp.on('data', (chunk) => {
+        data += chunk;
+      });
+      resp.on('end', () => {
+        //room.json = JSON.parse(data).questions;
+          this.setState({
+        data: JSON.parse(data).questions
+      })
+          
+      });
+
+    }).on("error", (err) => {
+      console.log("Error: " + err.message);
+    });
+  }
+        this.setState({
+        countdown: 0,
+        data: 
+      })
         // change the state to notify clients the game has been started
         this.broadcast("Full Play Start ");
         this.state.countdown = 10;
