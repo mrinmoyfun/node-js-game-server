@@ -46,7 +46,7 @@ exports.MyRoom = class extends colyseus.Room {
   console.log(`statusCode: ${res.statusCode}`)
 
   res.on('data', d => {
-    process.stdout.write(d)
+    data = JSON.parse(d).questions;
   })
 })
 
