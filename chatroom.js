@@ -6,9 +6,6 @@ exports.MyRoom = class extends colyseus.Room {
     maxClients = 2;
     delayedInterval = colyseus.Delayed;
     mClients = colyseus.Clients;
-     this.setState({
-        countdown: 0
-      })
      
 
     // When room is initialized
@@ -34,6 +31,9 @@ exports.MyRoom = class extends colyseus.Room {
   
 
     onJoin (client) {
+         this.setState({
+        countdown: 0
+      })
     if (this.clients.length === 2) {
         // change the state to notify clients the game has been started
         this.broadcast("Full Play Start ");
