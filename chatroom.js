@@ -43,13 +43,24 @@ exports.MyRoom = class extends colyseus.Room {
 }
    const req = https.request(options, res => {
   console.log(`statusCode: ${res.statusCode}`)
+ 
+        res.on('data', d => {
+        data += d;
+      })
 
-  res.on('data', d => {
-   
-      var decoded_data = d.toString('utf8');
-      console.log(decoded_data);
-      this.broadcast(decoded_data);
-  })
+      // The whole response has been received. Print out the result.
+      res.on('end', () => {
+        //console.log(JSON.parse(data).questions[1]);
+        var ff = JSON.parse(data).questions;
+          var decoded_data = data.toString('utf8');
+            console.log(decoded_data);
+      this.broadcast(ff);
+        //var ques = JSON.stringify(room.json);
+        //room.sendCommand('{"code":"QUESTIONS", "data":'+ques+'}');
+
+        //var t = JSON.stringify(JSON.parse(data).questions[1]);
+        //  BroadcastAll(t);
+      })
 
 
 req.on('error', error => {
