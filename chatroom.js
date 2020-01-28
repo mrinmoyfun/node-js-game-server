@@ -17,7 +17,7 @@ exports.MyRoom = class extends colyseus.Room {
         // so that we may clear it later
         this.delayedInterval = this.clock.setInterval(() => {
             console.log("Time now " + this.clock.currentTime);
-            this.broadcast(this.room.clients);
+            this.broadcast("Time now " + this.clock.currentTime);
         }, 1000);
 
         // After 10 seconds clear the timeout;
@@ -29,8 +29,8 @@ exports.MyRoom = class extends colyseus.Room {
 
   
 
-    onJoin (client) {
-        //this.broadcast(this);
+    onJoin (room , client) {
+        this.broadcast(room.roomId);
     }
     async onLeave (client, consented) {
   // flag client as inactive for other users
