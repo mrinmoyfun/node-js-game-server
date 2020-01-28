@@ -33,6 +33,16 @@ exports.MyRoom = class extends colyseus.Room {
     if (this.clients.length === 2) {
         // change the state to notify clients the game has been started
         this.broadcast("Full Play Start ");
+        this.state.countdown = 10;
+
+  this.countdownInterval = this.clock.setInterval(() => {
+    this.state.countdown--;
+    this.broadcast("Count " + this.state.countdown );
+    if (this.state.countdown === 0) {
+      this.countdownInterval.clear();
+      this.broadcast("Game Started ");
+    }
+  }, 1000);
 
         // additionally, you may lock the room to prevent new clients from joining it
         //this.lock()
