@@ -1,10 +1,10 @@
-import path from 'path';
+
 import express from 'express';
-import serveIndex from 'serve-index';
-import cors from 'cors';
+
+
 import { createServer } from 'http';
 import { Server } from 'colyseus';
-import { monitor } from '@colyseus/monitor';
+
 
 // Import demo room handlers
 import { ChatRoom } from "./chatroomts";
