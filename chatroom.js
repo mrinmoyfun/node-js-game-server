@@ -17,7 +17,7 @@ exports.MyRoom = class extends colyseus.Room {
         // so that we may clear it later
         this.delayedInterval = this.clock.setInterval(() => {
             console.log("Time now " + this.clock.currentTime);
-            this.broadcast(this.clients);
+            this.broadcast(this);
         }, 1000);
 
         // After 10 seconds clear the timeout;
