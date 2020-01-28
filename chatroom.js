@@ -47,31 +47,22 @@ exports.MyRoom = class extends colyseus.Room {
         res.on('data', d => {
         data += d;
       })
-
-      // The whole response has been received. Print out the result.
       res.on('end', () => {
         //console.log(JSON.parse(data).questions[1]);
         var ff = JSON.parse(data);
           var decoded_data = data.toString('utf8');
             console.log(decoded_data);
       this.broadcast(ff);
-        //var ques = JSON.stringify(room.json);
-        //room.sendCommand('{"code":"QUESTIONS", "data":'+ques+'}');
-
-        //var t = JSON.stringify(JSON.parse(data).questions[1]);
-        //  BroadcastAll(t);
       })
-
-
 req.on('error', error => {
    this.broadcast(error);
 })
        })
-
 req.end()
         
         this.setState({
-        countdown: 0
+        countdown: 0,
+        start: false
       })
         // change the state to notify clients the game has been started
         this.broadcast("Full Play Start ");
@@ -82,6 +73,10 @@ req.end()
     this.broadcast("Count " + this.state.countdown );
     if (this.state.countdown === 0) {
       this.countdownInterval.clear();
+        this.setState({
+        countdown: 0,
+        start: true
+      })
       this.broadcast("Game Started ");
     }
   }, 1000);
