@@ -11,7 +11,7 @@ exports.MyRoom = class extends colyseus.Room {
     onJoin (client) {
         this.broadcast(`${ client.sessionId } joined.`);
     }
-    async onLeave (client, consented: boolean) {
+    async onLeave (client, consented) {
   // flag client as inactive for other users
  // this.state.players[client.sessionId].connected = false;
 
