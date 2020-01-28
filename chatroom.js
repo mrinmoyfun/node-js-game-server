@@ -37,8 +37,7 @@ exports.MyRoom = class extends colyseus.Room {
         let data = '';
           const https = require('https');
         const options = {
-  hostname: 'http://pg.medgag.com',
-  port: 443,
+  hostname: 'pg.medgag.com',
   path: '/quiz/api/random.php?topic_id=7',
   method: 'GET'
 }
