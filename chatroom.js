@@ -46,7 +46,10 @@ exports.MyRoom = class extends colyseus.Room {
   console.log(`statusCode: ${res.statusCode}`)
 
   res.on('data', d => {
-    data = JSON.parse(d).questions;
+   // data = JSON.parse(d).questions;
+       this.setState({
+        data: d
+      })
   })
 })
 
@@ -57,8 +60,7 @@ req.on('error', error => {
 req.end()
         
         this.setState({
-        countdown: 0,
-        data: data
+        countdown: 0
       })
         // change the state to notify clients the game has been started
         this.broadcast("Full Play Start ");
