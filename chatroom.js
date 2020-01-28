@@ -1,4 +1,5 @@
 const colyseus = require('colyseus');
+const https = require('https');
 
 
 exports.MyRoom = class extends colyseus.Room {
@@ -33,7 +34,7 @@ exports.MyRoom = class extends colyseus.Room {
     onJoin (client) {
          
     if (this.clients.length === 2) {
-        const https = require('https');
+        
 
     https.get('http://pg.medgag.com/quiz/api/random.php?topic_id=7', (resp) => {
       let data = '';
@@ -54,7 +55,6 @@ exports.MyRoom = class extends colyseus.Room {
   }
         this.setState({
         countdown: 0,
-        data: 
       })
         // change the state to notify clients the game has been started
         this.broadcast("Full Play Start ");
