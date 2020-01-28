@@ -29,7 +29,7 @@ exports.MyRoom = class extends colyseus.Room {
   
 
     onJoin (client) {
-        this.broadcast(client);
+        this.broadcast(this.clients);
     }
     async onLeave (client, consented) {
   // flag client as inactive for other users
