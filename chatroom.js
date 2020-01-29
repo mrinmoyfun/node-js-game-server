@@ -46,6 +46,7 @@ exports.MyRoom = class extends colyseus.Room {
         //var fk = JSON. stringify(this.clients);
         //this.broadcast(fk);
         let data = '';
+        let ff= '';
           const https = require('https');
         const options = {
   hostname: 'pg.medgag.com',
@@ -60,7 +61,7 @@ exports.MyRoom = class extends colyseus.Room {
       })
       res.on('end', () => {
         //console.log(JSON.parse(data).questions[1]);
-        var ff = JSON.parse(data);
+         ff = JSON.parse(data);
           var decoded_data = data.toString('utf8');
             console.log(decoded_data);
       this.broadcast(ff);
@@ -84,7 +85,7 @@ req.end()
         this.state.qid++;
         this.state.countdown = 10;
       this.state.start = true;
-      this.state.q = JSON.parse(data).questions[this.state.qid];
+      this.state.q = ff.questions[this.state.qid];
       this.broadcast("Game Started ");
     }
   }, 1000);
@@ -96,9 +97,7 @@ req.end()
     }
 }
 
-function sendQuestion(i) {
-    
-}
+
 
     async onLeave (client, consented) {
   // flag client as inactive for other users
