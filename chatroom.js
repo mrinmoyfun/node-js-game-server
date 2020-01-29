@@ -82,12 +82,12 @@ req.end()
     this.broadcast("Count " + this.state.countdown );
     if (this.state.countdown === 0) {
       //this.countdownInterval.clear();
+        this.state.q = ff.questions[this.state.qid];
         this.state.qid++;
         this.state.countdown = 10;
       this.state.start = true;
-      this.state.q = ff.questions[this.state.qid];
       this.broadcast("Game Started ");
-        if(this.state.qid === data.length) {
+        if(this.state.qid === 5) {
             this.countdownInterval.clear();
         }
     }
