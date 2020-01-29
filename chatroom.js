@@ -82,7 +82,8 @@ req.end()
     this.broadcast("Count " + this.state.countdown );
     if (this.state.countdown === 0) {
       //this.countdownInterval.clear();
-        this.broadcast(ff.questions[this.state.qid]);
+        var ques = {q: ff.questions[this.state.qid] , qid:this.state.qid};
+        this.broadcast(ques);
        // this.state.q = ff.questions[this.state.qid];
         this.state.qid++;
         this.state.countdown = 10;
