@@ -89,6 +89,7 @@ req.end()
       this.broadcast("Game Started ");
         if(this.state.qid === data.length) {
             this.countdownInterval.clear();
+        }
     }
   }, 1000);
         
