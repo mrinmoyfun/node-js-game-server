@@ -34,7 +34,7 @@ exports.MyRoom = class extends colyseus.Room {
     onJoin (client) {
         //this.broadcast("{ opponentId :" + this.clients[0].sessionId + "}", { except: this.clients[1] });
        // this.broadcast("{ opponentId :" + this.clients[1].sessionId + "}", { except: this.clients[0] });
-        this.boradcast(this.clients);
+        this.broadcast(this.clients);
     if (this.clients.length === 2) {
         
         let data = '';
