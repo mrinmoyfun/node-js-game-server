@@ -34,9 +34,9 @@ exports.MyRoom = class extends colyseus.Room {
     onJoin (client) {
     if (this.clients.length === 2) {
         var car1 = {opponentId: JSON.stringify(this.clients[0].sessionId) , success:"500"};
-
+        var car2 = {opponentId: JSON.stringify(this.clients[1].sessionId) , success:"500"};
         this.broadcast(car1, { except: this.clients[0] });
-        this.broadcast('{ "opponentId" :' + JSON.stringify(this.clients[1].sessionId) + '}', { except: this.clients[1] });
+        this.broadcast(car2, { except: this.clients[1] });
         //var fk = JSON. stringify(this.clients);
         //this.broadcast(fk);
         let data = '';
