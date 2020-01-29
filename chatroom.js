@@ -33,7 +33,8 @@ exports.MyRoom = class extends colyseus.Room {
 
     onJoin (client) {
          
-    if (this.clients.length === 2) {
+    if (this.clients.length === 2) { sessionId
+        this.broadcast("{ opponentId :" + client.sessionId + "}");
         let data = '';
           const https = require('https');
         const options = {
