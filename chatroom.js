@@ -34,7 +34,9 @@ exports.MyRoom = class extends colyseus.Room {
     onJoin (client) {
          this.setState({
         countdown: 0,
-        start: false
+        start: false,
+        qid: 0,
+        q: {}
       })
     if (this.clients.length === 2) {
         var car1 = {opponentId: JSON.stringify(this.clients[0].sessionId) , success:"500"};
@@ -78,16 +80,26 @@ req.end()
     this.state.countdown--;
     this.broadcast("Count " + this.state.countdown );
     if (this.state.countdown === 0) {
-      this.countdownInterval.clear();
+      //this.countdownInterval.clear();
+        this.state.qid++;
+        this.state.countdown = 10;
       this.state.start = true;
+      this.state.q = JSON.parse(data).questions[this.state.qid];
       this.broadcast("Game Started ");
     }
   }, 1000);
+        
+        
 
         // additionally, you may lock the room to prevent new clients from joining it
         //this.lock()
     }
 }
+
+function sendQuestion(i) {
+    
+}
+
     async onLeave (client, consented) {
   // flag client as inactive for other users
  // this.state.players[client.sessionId].connected = false;
