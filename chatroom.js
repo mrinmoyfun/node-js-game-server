@@ -32,10 +32,10 @@ exports.MyRoom = class extends colyseus.Room {
   
 
     onJoin (client) {
-        //this.broadcast("{ opponentId :" + this.clients[0].sessionId + "}", { except: this.clients[1] });
-       // this.broadcast("{ opponentId :" + this.clients[1].sessionId + "}", { except: this.clients[0] });
+        this.broadcast("{ opponentId :" + JSON.stringify(this.clients[0].sessionId) + "}", { except: this.clients[1] });
+       this.broadcast("{ opponentId :" + JSON.stringify(this.clients[1].sessionId) + "}", { except: this.clients[0] });
         var decoded_data = this.clients.toString('utf8');
-        var fk = JSON. stringify(this.clients);
+        //var fk = JSON. stringify(this.clients);
         this.broadcast(fk);
     if (this.clients.length === 2) {
         
