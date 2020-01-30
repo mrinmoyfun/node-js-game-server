@@ -71,6 +71,7 @@ exports.MyRoom = class extends colyseus.Room {
         var car2 = {opponentId: JSON.stringify(this.clients[1].sessionId) , success:"500"};
         this.broadcast(car1, { except: this.clients[0] });
         this.broadcast(car2, { except: this.clients[1] });
+      this.players[id].x = 5;
         //var fk = JSON. stringify(this.clients);
         //this.broadcast(fk);
         let data = '';
@@ -109,6 +110,7 @@ req.end()
     this.state.countdown--;
     this.broadcast("Count " + this.state.countdown );
     if (this.state.countdown === 0) {
+       
       //this.countdownInterval.clear();
          if(this.state.qid === 6) {
             this.countdownInterval.clear();
