@@ -38,6 +38,7 @@ exports.MyRoom = class extends colyseus.Room {
   
 
     onJoin (client) {
+        this.state.players[client.sessionId].connected = true;
         
     if (this.clients.length === 2) {
         var car1 = {opponentId: JSON.stringify(this.clients[0].sessionId) , success:"500"};
@@ -109,7 +110,7 @@ req.end()
 
     async onLeave (client, consented) {
   // flag client as inactive for other users
- // this.state.players[client.sessionId].connected = false;
+  this.state.players[client.sessionId].connected = false;
 
   try {
     if (consented) {
@@ -121,12 +122,12 @@ req.end()
     await this.allowReconnection(client, 50);
 
     // client returned! let's re-activate it.
-    //this.state.players[client.sessionId].connected = true;
+    this.state.players[client.sessionId].connected = true;
 
   } catch (e) {
 
     // 20 seconds expired. let's remove the client.
-    //delete this.state.players[client.sessionId];
+    delete this.state.players[client.sessionId];
   }
 }
 
