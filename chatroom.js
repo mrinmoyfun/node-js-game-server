@@ -86,6 +86,7 @@ req.end()
          if(this.state.qid === 6) {
             this.countdownInterval.clear();
              this.broadcast("Game End ");
+             this.disconnect();
         }
         var ques = {q: ff.questions[this.state.qid] , qid:this.state.qid, empty: true};
         this.broadcast(ques);
