@@ -64,7 +64,7 @@ exports.MyRoom = class extends colyseus.Room {
 
     onJoin (client) {
         //this.state.players[client.sessionId].connected = true;
-      this.players[client.sessionId] = new Player();
+      this.state.players[client.sessionId] = new Player();
         
     if (this.clients.length === 2) {
         var car1 = {opponentId: JSON.stringify(this.clients[0].sessionId) , success:"500"};
