@@ -15,15 +15,16 @@ class MyState extends Schema {
         super();
 
         this.players = new MapSchema();
-      createPlayer (id) {
-        this.players[ id ] = new Player();
-    }
     }
   
 }
 schema.defineTypes(MyState, {
   players: { map: Player }
 });
+
+function createPlayer (id) {
+        this.players[ id ] = new Player();
+    }
 
 
 
