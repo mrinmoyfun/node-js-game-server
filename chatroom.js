@@ -1,4 +1,5 @@
 const colyseus = require('colyseus');
+import { Schema, type, MapSchema } from "@colyseus/schema";
 
 
 
