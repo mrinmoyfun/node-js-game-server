@@ -15,7 +15,8 @@ exports.MyRoom = class extends colyseus.Room {
         countdown: 0,
         start: false,
         qid: 0,
-        q: {}
+        q: {},
+        players: {}     
       })
         console.log("BasicRoom created!", options);
         // start the clock ticking
