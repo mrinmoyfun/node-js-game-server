@@ -163,7 +163,8 @@ req.end()
 
     onMessage (client, data) {
         console.log("BasicRoom received message from", client.sessionId, ":", data);
-        this.broadcast(data.message, { except: client });
+        this.state.players[client.sessionId].y =  data.option;
+        //this.broadcast(data.message, { except: client });
     }
 
     onDispose () {
