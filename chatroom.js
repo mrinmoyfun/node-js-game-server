@@ -16,9 +16,6 @@ class MyState extends Schema {
 
         this.players = new MapSchema();
     }
-  function createPlayer (id) {
-        this.players[ id ] = new Player();
-    }
   
 }
 schema.defineTypes(MyState, {
@@ -67,7 +64,7 @@ exports.MyRoom = class extends colyseus.Room {
 
     onJoin (client) {
         //this.state.players[client.sessionId].connected = true;
-      this.state.createPlayer(client.sessionId);
+      this.players[client.sessionId] = new Player();
         
     if (this.clients.length === 2) {
         var car1 = {opponentId: JSON.stringify(this.clients[0].sessionId) , success:"500"};
