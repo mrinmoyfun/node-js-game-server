@@ -117,6 +117,7 @@ req.end()
              this.disconnect();
         }
         var ques = {q: ff.questions[this.state.qid] , qid:this.state.qid, empty: true};
+        this.state.players[this.clients[0].sessionId].x = this.state.qid;
         this.broadcast(ques);
        // this.state.q = ff.questions[this.state.qid];
         this.state.qid++;
