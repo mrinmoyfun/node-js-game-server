@@ -11,6 +11,12 @@ exports.MyRoom = class extends colyseus.Room {
 
     // When room is initialized
     onCreate(options) {
+         this.setState({
+        countdown: 0,
+        start: false,
+        qid: 0,
+        q: {}
+      })
         console.log("BasicRoom created!", options);
         // start the clock ticking
         this.clock.start();
@@ -32,12 +38,7 @@ exports.MyRoom = class extends colyseus.Room {
   
 
     onJoin (client) {
-         this.setState({
-        countdown: 0,
-        start: false,
-        qid: 0,
-        q: {}
-      })
+        
     if (this.clients.length === 2) {
         var car1 = {opponentId: JSON.stringify(this.clients[0].sessionId) , success:"500"};
         var car2 = {opponentId: JSON.stringify(this.clients[1].sessionId) , success:"500"};
@@ -84,6 +85,7 @@ req.end()
       //this.countdownInterval.clear();
          if(this.state.qid === 6) {
             this.countdownInterval.clear();
+             this.broadcast("Game End ");
         }
         var ques = {q: ff.questions[this.state.qid] , qid:this.state.qid, empty: true};
         this.broadcast(ques);
