@@ -71,7 +71,6 @@ exports.MyRoom = class extends colyseus.Room {
         var car2 = {opponentId: JSON.stringify(this.clients[1].sessionId) , success:"500"};
         this.broadcast(car1, { except: this.clients[0] });
         this.broadcast(car2, { except: this.clients[1] });
-      this.players[id].x = 5;
         //var fk = JSON. stringify(this.clients);
         //this.broadcast(fk);
         let data = '';
@@ -144,6 +143,7 @@ req.end()
     if (consented) {
         throw new Error("consented leave");
         this.broadcast(`${ client.sessionId } left.`);
+      delete this.players[client.sessionId];
     }
 
     // allow disconnected client to reconnect into this room until 20 seconds
@@ -155,7 +155,7 @@ req.end()
   } catch (e) {
 
     // 20 seconds expired. let's remove the client.
-    //delete this.state.players[client.sessionId];
+    delete this.players[client.sessionId];
   }
 }
 
