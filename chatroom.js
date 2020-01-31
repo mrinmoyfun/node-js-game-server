@@ -7,7 +7,8 @@ class Player extends Schema {
 }
 schema.defineTypes(Player, {
   x: "number",
-  y: "number"
+  y: "number",
+  score: "number"
 });
 
 class MyState extends Schema {
@@ -40,7 +41,8 @@ exports.MyRoom = class extends colyseus.Room {
         start: false,
         qid: 0,
         q: {},
-        players: {}     
+        players: {},
+        correct: 0
       })
         console.log("BasicRoom created!", options);
         // start the clock ticking
@@ -65,6 +67,7 @@ exports.MyRoom = class extends colyseus.Room {
     onJoin (client) {
         //this.state.players[client.sessionId].connected = true;
       this.state.players[client.sessionId] = new Player();
+      this.state.players[client.sessionId].score =  0;
         
     if (this.clients.length === 2) {
         var car1 = {opponentId: this.clients[0].sessionId , success:"500"};
@@ -117,7 +120,7 @@ req.end()
              this.disconnect();
         }
         var ques = {q: ff.questions[this.state.qid] , qid:this.state.qid, empty: true};
-      
+        this.state.correct = ff.questions[this.state.qid].correctans;
         //this.state.players[this.clients[0].sessionId].y = 0;
         //this.state.players[this.clients[1].sessionId].y = 0;
         this.broadcast(ques);
@@ -166,6 +169,15 @@ req.end()
     onMessage (client, data) {
         console.log("BasicRoom received message from", client.sessionId, ":", data);
         this.state.players[client.sessionId].y =  data.option;
+        if (data.option && this.state.qid > 0) {
+          if ( data.option === this.state.correct ) {
+            this.state.players[client.sessionId].score =  this.state.players[client.sessionId].score + 10;
+            this.broadcast("RIGHT", { except: client });
+          } else {
+            this.broadcast("WRONG", { except: client });
+          }
+        }
+        
         //this.broadcast(data.message, { except: client });
     }
 
