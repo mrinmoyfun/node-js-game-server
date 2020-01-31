@@ -171,9 +171,10 @@ req.end()
         this.state.players[client.sessionId].y =  data.option;
         if (data.option && this.state.qid > 0) {
           if ( data.option === this.state.correct ) {
-            this.state.players[client.sessionId].score =  this.state.players[client.sessionId].score + 10;
+            this.state.players[client.sessionId].score =  this.state.players[client.sessionId].score + 20;
             this.broadcast("RIGHT", { except: client });
           } else {
+            this.state.players[client.sessionId].score =  this.state.players[client.sessionId].score - 10;
             this.broadcast("WRONG", { except: client });
           }
         }
