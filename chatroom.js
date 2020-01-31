@@ -124,7 +124,16 @@ req.end()
          if(this.state.qid === 5) {
             this.countdownInterval.clear();
            //Result 
-           
+            if( this.state.players[this.clients[0].sessionId].score > this.state.players[this.clients[1].sessionId].score ) {
+          this.broadcast("Winner", { except: this.clients[1] });
+          this.broadcast("Looser", { except: this.clients[0] });
+        } else if (this.state.players[this.clients[1].sessionId].score > this.state.players[this.clients[0].sessionId].score) {
+           this.broadcast("Winner", { except: this.clients[0] });
+          this.broadcast("Looser", { except: this.clients[1] });
+         } else {
+            this.broadcast("Draw", { except: this.clients[0] });
+          this.broadcast("Draw", { except: this.clients[1] });
+         }
              this.broadcast("Game End ");
              this.disconnect();
         }
@@ -166,9 +175,10 @@ req.end()
       this.countdownInterval.clear();
       //delete this.state.players[client.sessionId];
     }
+    this.broadcast("Waiting", { except: client});
     this.countdownInterval.clear();
     // allow disconnected client to reconnect into this room until 20 seconds
-    await this.allowReconnection(client, 50);
+    await this.allowReconnection(client, 20);
 
     // client returned! let's re-activate it.
     //this.state.players[client.sessionId].connected = true;
@@ -201,16 +211,7 @@ req.end()
     }
 
     onDispose () {
-        if( this.state.players[this.clients[0].sessionId].score > this.state.players[this.clients[1].sessionId].score ) {
-          this.broadcast("Winner", { except: this.clients[1] });
-          this.broadcast("Looser", { except: this.clients[0] });
-        } else if (this.state.players[this.clients[1].sessionId].score > this.state.players[this.clients[0].sessionId].score) {
-           this.broadcast("Winner", { except: this.clients[0] });
-          this.broadcast("Looser", { except: this.clients[1] });
-         } else {
-            this.broadcast("Draw", { except: this.clients[0] });
-          this.broadcast("Draw", { except: this.clients[1] });
-         }
+        
         console.log("Dispose BasicRoom");
     }
 
