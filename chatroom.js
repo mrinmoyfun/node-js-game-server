@@ -114,8 +114,10 @@ req.end()
     if (this.state.countdown === 0) {
        
       //this.countdownInterval.clear();
-         if(this.state.qid === 11) {
+         if(this.state.qid === 10) {
             this.countdownInterval.clear();
+           //Result 
+           
              this.broadcast("Game End ");
              this.disconnect();
         }
@@ -183,6 +185,16 @@ req.end()
     }
 
     onDispose () {
+        if( this.state.players[this.clients[0].sessionId].score > this.state.players[this.clients[1].sessionId].score ) {
+          this.broadcast("Winner", { except: this.clients[1] });
+          this.broadcast("Looser", { except: this.clients[0] });
+        } else if (this.state.players[this.clients[1].sessionId].score > this.state.players[this.clients[0].sessionId].score) {
+           this.broadcast("Winner", { except: this.clients[0] });
+          this.broadcast("Looser", { except: this.clients[1] });
+         } else {
+            this.broadcast("Draw", { except: this.clients[0] });
+          this.broadcast("Draw", { except: this.clients[1] });
+         }
         console.log("Dispose BasicRoom");
     }
 
