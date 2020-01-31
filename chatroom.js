@@ -112,8 +112,8 @@ req.end()
     this.state.countdown--;
     this.broadcast("Count " + this.state.countdown );
     if (this.state.countdown > 5) {
-      if ( this.state.players[this.clients[0].sessionId] && this.state.players[this.clients[0].sessionId])  {
-          if ( this.state.players[this.clients[0].sessionId] > 0 && this.state.players[this.clients[0].sessionId] > 0)  {
+      if ( this.state.players[this.clients[0].sessionId] && this.state.players[this.clients[1].sessionId])  {
+          if ( this.state.players[this.clients[0].sessionId].y > 0 && this.state.players[this.clients[1].sessionId].y > 0)  {
            this.state.countdown = 5;
       }
       }
