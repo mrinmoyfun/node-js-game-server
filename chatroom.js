@@ -124,16 +124,7 @@ req.end()
          if(this.state.qid === 5) {
             this.countdownInterval.clear();
            //Result 
-            if( this.state.players[this.clients[0].sessionId].score > this.state.players[this.clients[1].sessionId].score ) {
-          this.broadcast("Winner", { except: this.clients[1] });
-          this.broadcast("Looser", { except: this.clients[0] });
-        } else if (this.state.players[this.clients[1].sessionId].score > this.state.players[this.clients[0].sessionId].score) {
-           this.broadcast("Winner", { except: this.clients[0] });
-          this.broadcast("Looser", { except: this.clients[1] });
-         } else {
-            this.broadcast("Draw", { except: this.clients[0] });
-          this.broadcast("Draw", { except: this.clients[1] });
-         }
+            
              this.broadcast("Game End ");
              this.disconnect();
         }
@@ -152,6 +143,16 @@ req.end()
         this.state.countdown = 25;
       this.state.start = true;
       this.broadcast("Game Started ");
+      if( this.state.players[this.clients[0].sessionId].score > this.state.players[this.clients[1].sessionId].score ) {
+          this.broadcast("Winner", { except: this.clients[1] });
+          this.broadcast("Looser", { except: this.clients[0] });
+        } else if (this.state.players[this.clients[1].sessionId].score > this.state.players[this.clients[0].sessionId].score) {
+           this.broadcast("Winner", { except: this.clients[0] });
+          this.broadcast("Looser", { except: this.clients[1] });
+         } else {
+            this.broadcast("Draw", { except: this.clients[0] });
+          this.broadcast("Draw", { except: this.clients[1] });
+         }
     }
   }, 1000);
         
