@@ -137,13 +137,7 @@ req.end()
     if (this.state.countdown === 0) {
        
       //this.countdownInterval.clear();
-         if(this.state.qid === 5) {
-            this.countdownInterval.clear();
-           //Result 
-            
-             this.broadcast("Game End ");
-             this.disconnect();
-        }
+         
         var ques = {q: ff.questions[this.state.qid] , qid:this.state.qid, empty: true};
         this.state.correct = Number(ff.questions[this.state.qid].correctans);
       if ( this.state.players[this.clients[0].sessionId] ) {
@@ -159,6 +153,13 @@ req.end()
         this.state.countdown = 25;
       this.state.start = true;
       this.broadcast("Game Started ");
+      if(this.state.qid === 5) {
+            this.countdownInterval.clear();
+           //Result 
+            
+             this.broadcast("Game End ");
+             this.disconnect();
+        }
    
     }
   }, 1000);
