@@ -131,6 +131,11 @@ req.end()
             this.broadcast("Draw", { except: this.clients[0] });
           this.broadcast("Draw", { except: this.clients[1] });
          }
+         this.countdownInterval.clear();
+           //Result 
+            
+             this.broadcast("Game End ");
+             this.disconnect();
        } 
      } 
     
@@ -158,7 +163,7 @@ req.end()
            //Result 
             
              this.broadcast("Game End ");
-             this.disconnect();
+             //this.disconnect();
         }
    
     }
