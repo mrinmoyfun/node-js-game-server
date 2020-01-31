@@ -111,6 +111,13 @@ req.end()
   this.countdownInterval = this.clock.setInterval(() => {
     this.state.countdown--;
     this.broadcast("Count " + this.state.countdown );
+    if (this.state.countdown > 5) {
+      if ( this.state.players[this.clients[0].sessionId] && this.state.players[this.clients[0].sessionId])  {
+          if ( this.state.players[this.clients[0].sessionId] > 0 && this.state.players[this.clients[0].sessionId] > 0)  {
+           this.state.countdown = 5;
+      }
+      }
+    }
     if (this.state.countdown === 0) {
        
       //this.countdownInterval.clear();
