@@ -163,9 +163,10 @@ req.end()
     if (consented) {
         throw new Error("consented leave");
         this.broadcast(`${ client.sessionId } left.`);
+      this.countdownInterval.clear();
       //delete this.state.players[client.sessionId];
     }
-
+    this.countdownInterval.clear();
     // allow disconnected client to reconnect into this room until 20 seconds
     await this.allowReconnection(client, 50);
 
@@ -176,6 +177,7 @@ req.end()
 
     // 20 seconds expired. let's remove the client.
     this.clock.stop();
+    this.countdownInterval.clear();
     this.broadcast("Disconnected", { except: client});
     //delete this.state.players[client.sessionId];
   }
