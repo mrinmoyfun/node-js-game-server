@@ -115,9 +115,25 @@ req.end()
       if ( this.state.players[this.clients[0].sessionId] && this.state.players[this.clients[1].sessionId])  {
           if ( this.state.players[this.clients[0].sessionId].y > 0 && this.state.players[this.clients[1].sessionId].y > 0)  {
            this.state.countdown = 5;
+            
       }
       }
     }
+     if (this.state.countdown === 1) {
+      if(this.state.qid === 5) {
+       if( this.state.players[this.clients[0].sessionId].score > this.state.players[this.clients[1].sessionId].score ) {
+          this.broadcast("Winner", { except: this.clients[1] });
+          this.broadcast("Looser", { except: this.clients[0] });
+        } else if (this.state.players[this.clients[1].sessionId].score > this.state.players[this.clients[0].sessionId].score) {
+           this.broadcast("Winner", { except: this.clients[0] });
+          this.broadcast("Looser", { except: this.clients[1] });
+         } else {
+            this.broadcast("Draw", { except: this.clients[0] });
+          this.broadcast("Draw", { except: this.clients[1] });
+         }
+       } 
+     } 
+    
     if (this.state.countdown === 0) {
        
       //this.countdownInterval.clear();
@@ -143,16 +159,7 @@ req.end()
         this.state.countdown = 25;
       this.state.start = true;
       this.broadcast("Game Started ");
-      if( this.state.players[this.clients[0].sessionId].score > this.state.players[this.clients[1].sessionId].score ) {
-          this.broadcast("Winner", { except: this.clients[1] });
-          this.broadcast("Looser", { except: this.clients[0] });
-        } else if (this.state.players[this.clients[1].sessionId].score > this.state.players[this.clients[0].sessionId].score) {
-           this.broadcast("Winner", { except: this.clients[0] });
-          this.broadcast("Looser", { except: this.clients[1] });
-         } else {
-            this.broadcast("Draw", { except: this.clients[0] });
-          this.broadcast("Draw", { except: this.clients[1] });
-         }
+   
     }
   }, 1000);
         
