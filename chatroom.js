@@ -153,7 +153,7 @@ req.end()
         this.state.countdown = 25;
       this.state.start = true;
       this.broadcast("Game Started ");
-      if(this.state.qid === 5) {
+      if(this.state.qid === 6) {
             this.countdownInterval.clear();
            //Result 
             
