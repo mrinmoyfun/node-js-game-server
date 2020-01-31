@@ -114,7 +114,7 @@ req.end()
     if (this.state.countdown === 0) {
        
       //this.countdownInterval.clear();
-         if(this.state.qid === 10) {
+         if(this.state.qid === 5) {
             this.countdownInterval.clear();
            //Result 
            
