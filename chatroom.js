@@ -114,7 +114,7 @@ req.end()
     if (this.state.countdown === 0) {
        
       //this.countdownInterval.clear();
-         if(this.state.qid === 6) {
+         if(this.state.qid === 11) {
             this.countdownInterval.clear();
              this.broadcast("Game End ");
              this.disconnect();
@@ -169,7 +169,7 @@ req.end()
     onMessage (client, data) {
         console.log("BasicRoom received message from", client.sessionId, ":", data);
         this.state.players[client.sessionId].y =  data.option;
-        if (data.option && this.state.qid > 0) {
+        if (data.option && this.state.qid > 0 ) {
           if ( data.option === this.state.correct ) {
             this.state.players[client.sessionId].score =  this.state.players[client.sessionId].score + 20;
             this.broadcast("RIGHT", { except: client });
