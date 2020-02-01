@@ -87,6 +87,10 @@ req.end()
           if (this.clients.length === 2) {
              this.state.countdown--;
     this.broadcast("Count " + this.state.countdown );
+             var car1 = {opponentId: this.clients[0].sessionId , success:"500"};
+        var car2 = {opponentId: this.clients[1].sessionId , success:"500"};
+        this.broadcast(car1, { except: this.clients[0] });
+        this.broadcast(car2, { except: this.clients[1] });
     if (this.state.countdown > 5) {
       if ( this.state.players[this.clients[0].sessionId] && this.state.players[this.clients[1].sessionId])  {
           if ( this.state.players[this.clients[0].sessionId].y > 0 && this.state.players[this.clients[1].sessionId].y > 0)  {
@@ -214,7 +218,7 @@ req.end()
     // allow disconnected client to reconnect into this room until 20 seconds
     await this.allowReconnection(client, 20);
      var draw = {result: 'returned'};
-     this.broadcast(draw, { except: client }); 
+     this.broadcast(draw); 
      this.clock.start();
     // client returned! let's re-activate it.
     //this.state.players[client.sessionId].connected = true;
