@@ -32,8 +32,7 @@ exports.MyRoom = class extends colyseus.Room {
     maxClients = 2;
     delayedInterval = colyseus.Delayed;
     mClients = colyseus.Clients;
-     let data = '';
-      let ff= '';
+    
 
     // When room is initialized
     onCreate(options) {
@@ -49,7 +48,8 @@ exports.MyRoom = class extends colyseus.Room {
         
         // start the clock ticking
         this.clock.start();
-      
+        let data = '';
+      let ff= '';
         // Ready questions 
           const https = require('https');
         const options = {
