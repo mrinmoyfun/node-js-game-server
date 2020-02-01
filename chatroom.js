@@ -83,6 +83,7 @@ req.end()
         // Set an interval and store a reference to it
         // so that we may clear it later
         this.delayedInterval = this.clock.setInterval(() => {
+          this.broadcast("Running");
           if (this.clients.length === 2) {
              this.state.countdown--;
     this.broadcast("Count " + this.state.countdown );
