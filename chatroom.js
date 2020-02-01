@@ -58,7 +58,8 @@ exports.MyRoom = class extends colyseus.Room {
         // After 10 seconds clear the timeout;
         // this will *stop and destroy* the timeout completely
         this.clock.setTimeout(() => {
-            this.delayedInterval.clear();
+            //this.delayedInterval.clear();
+            this.clock.stop();
         }, 10000);
     }
 
@@ -211,7 +212,7 @@ req.end()
   } catch (e) {
 
     // 20 seconds expired. let's remove the client.
-    this.clock.stop();
+    this.clock.start();
     this.countdownInterval.clear();
      var draw = {result: 'disconnected'};
      this.broadcast(draw, { except: client });
