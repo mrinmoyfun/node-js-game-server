@@ -216,7 +216,9 @@ req.end()
     this.clock.stop();
     //this.countdownInterval.clear();
     // allow disconnected client to reconnect into this room until 20 seconds
-    await this.allowReconnection(client, 20);
+    //await this.allowReconnection(client, 20);
+    const reconnectedClient = await this.allowReconnection(client, 20);
+    this.send(reconnectedClient, reconnectedClient.sessionId + ' rejoined');
      var draw = {result: 'returned'};
      this.broadcast(draw); 
      this.clock.start();
