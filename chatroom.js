@@ -141,7 +141,7 @@ req.end()
            //Result 
             
              this.broadcast("Game End ");
-             this.disconnect();
+             //this.disconnect();
        } 
      } 
     
