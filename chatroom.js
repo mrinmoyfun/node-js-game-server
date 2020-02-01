@@ -58,8 +58,8 @@ exports.MyRoom = class extends colyseus.Room {
         // After 10 seconds clear the timeout;
         // this will *stop and destroy* the timeout completely
         this.clock.setTimeout(() => {
-            //this.delayedInterval.clear();
-            this.clock.stop();
+            this.delayedInterval.clear();
+            //this.clock.stop();
         }, 10000);
     }
 
