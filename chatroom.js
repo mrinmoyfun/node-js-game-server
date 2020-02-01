@@ -195,7 +195,7 @@ req.end()
       this.countdownInterval.clear();
       //delete this.state.players[client.sessionId];
     }
-    var draw = {result: 'disconnected'};
+    var draw = {result: 'waiting'};
      this.broadcast(draw, { except: client });
     //this.broadcast("Waiting", { except: client});
     this.countdownInterval.clear();
