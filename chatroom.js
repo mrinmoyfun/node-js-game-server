@@ -199,8 +199,8 @@ req.end()
     var draw = {result: 'waiting'};
      this.broadcast(draw, { except: client });
     //this.broadcast("Waiting", { except: client});
-    //this.clock.stop();
-    this.countdownInterval.clear();
+    this.clock.stop();
+    //this.countdownInterval.clear();
     // allow disconnected client to reconnect into this room until 20 seconds
     await this.allowReconnection(client, 20);
      var draw = {result: 'returned'};
