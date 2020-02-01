@@ -32,7 +32,8 @@ exports.MyRoom = class extends colyseus.Room {
     maxClients = 2;
     delayedInterval = colyseus.Delayed;
     mClients = colyseus.Clients;
-     
+     let data = '';
+      let ff= '';
 
     // When room is initialized
     onCreate(options) {
@@ -45,40 +46,11 @@ exports.MyRoom = class extends colyseus.Room {
         correct: 0
       })
         console.log("BasicRoom created!", options);
+        
         // start the clock ticking
         this.clock.start();
-
-        // Set an interval and store a reference to it
-        // so that we may clear it later
-        this.delayedInterval = this.clock.setInterval(() => {
-            console.log("Time now " + this.clock.currentTime);
-            this.broadcast("Time now " + this.clock.currentTime);
-        }, 1000);
-
-        // After 10 seconds clear the timeout;
-        // this will *stop and destroy* the timeout completely
-        this.clock.setTimeout(() => {
-            this.delayedInterval.clear();
-            //this.clock.stop();
-        }, 10000);
-    }
-
-  
-
-    onJoin (client) {
-        //this.state.players[client.sessionId].connected = true;
-      this.state.players[client.sessionId] = new Player();
-      this.state.players[client.sessionId].score =  0;
-        
-    if (this.clients.length === 2) {
-        var car1 = {opponentId: this.clients[0].sessionId , success:"500"};
-        var car2 = {opponentId: this.clients[1].sessionId , success:"500"};
-        this.broadcast(car1, { except: this.clients[0] });
-        this.broadcast(car2, { except: this.clients[1] });
-        //var fk = JSON. stringify(this.clients);
-        //this.broadcast(fk);
-        let data = '';
-        let ff= '';
+      
+        // Ready questions 
           const https = require('https');
         const options = {
   hostname: 'pg.medgag.com',
@@ -96,21 +68,23 @@ exports.MyRoom = class extends colyseus.Room {
          ff = JSON.parse(data);
           var decoded_data = data.toString('utf8');
             console.log(decoded_data);
-      this.broadcast(ff);
+      //this.broadcast(ff);
       })
 req.on('error', error => {
-   this.broadcast(error);
+   //this.broadcast(error);
 })
        })
 req.end()
         
        
         // change the state to notify clients the game has been started
-        this.broadcast("Full Play Start ");
-        this.state.countdown = 10;
+       
 
-  this.countdownInterval = this.clock.setInterval(() => {
-    this.state.countdown--;
+        // Set an interval and store a reference to it
+        // so that we may clear it later
+        this.delayedInterval = this.clock.setInterval(() => {
+          if (this.clients.length === 2) {
+             this.state.countdown--;
     this.broadcast("Count " + this.state.countdown );
     if (this.state.countdown > 5) {
       if ( this.state.players[this.clients[0].sessionId] && this.state.players[this.clients[1].sessionId])  {
@@ -138,7 +112,7 @@ req.end()
           this.broadcast(draw, { except: this.clients[1] });
           this.broadcast(draw, { except: this.clients[0] });
          }
-         this.countdownInterval.clear();
+         this.delayedInterval.clear();
            //Result 
             
              this.broadcast("Game End ");
@@ -166,7 +140,7 @@ req.end()
       this.state.start = true;
       this.broadcast("Game Started ");
       if(this.state.qid === 6) {
-            this.countdownInterval.clear();
+            this.delayedInterval.clear();
            //Result 
             
              this.broadcast("Game End ");
@@ -174,6 +148,40 @@ req.end()
         }
    
     }
+          }
+        }, 1000);
+          
+               
+
+        // After 10 seconds clear the timeout;
+        // this will *stop and destroy* the timeout completely
+        this.clock.setTimeout(() => {
+            //this.delayedInterval.clear();
+            //this.clock.stop();
+        }, 10000);
+    }
+
+  
+
+    onJoin (client) {
+        //this.state.players[client.sessionId].connected = true;
+      this.state.players[client.sessionId] = new Player();
+      this.state.players[client.sessionId].score =  0;
+        
+    if (this.clients.length === 2) {
+        var car1 = {opponentId: this.clients[0].sessionId , success:"500"};
+        var car2 = {opponentId: this.clients[1].sessionId , success:"500"};
+        this.broadcast(car1, { except: this.clients[0] });
+        this.broadcast(car2, { except: this.clients[1] });
+        //var fk = JSON. stringify(this.clients);
+        //this.broadcast(fk);
+         this.broadcast("Full Play Start ");
+        this.state.countdown = 10;
+    }
+       
+
+  this.countdownInterval = this.clock.setInterval(() => {
+   
   }, 1000);
         
         
