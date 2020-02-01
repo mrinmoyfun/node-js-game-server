@@ -52,12 +52,12 @@ exports.MyRoom = class extends colyseus.Room {
       let ff= '';
         // Ready questions 
           const https = require('https');
-        const options = {
+        const optionspg = {
   hostname: 'pg.medgag.com',
   path: '/quiz/api/random.php?topic_id=7',
   method: 'GET'
 }
-   const req = https.request(options, res => {
+   const req = https.request(optionspg, res => {
   console.log(`statusCode: ${res.statusCode}`)
  
         res.on('data', d => {
@@ -188,7 +188,7 @@ req.end()
 
         // additionally, you may lock the room to prevent new clients from joining it
         //this.lock()
-    }
+    
 }
 
 
