@@ -121,15 +121,21 @@ req.end()
     }
      if (this.state.countdown === 1) {
       if(this.state.qid === 5) {
+         var result = {result: 'winner'};
        if( this.state.players[this.clients[0].sessionId].score > this.state.players[this.clients[1].sessionId].score ) {
-          this.broadcast("Winner", { except: this.clients[1] });
-          this.broadcast("Looser", { except: this.clients[0] });
+          var winner = {result: 'winner'};
+          var looser = {result: 'looser'};
+          this.broadcast(winner, { except: this.clients[1] });
+          this.broadcast(looser, { except: this.clients[0] });
         } else if (this.state.players[this.clients[1].sessionId].score > this.state.players[this.clients[0].sessionId].score) {
-           this.broadcast("Winner", { except: this.clients[0] });
-          this.broadcast("Looser", { except: this.clients[1] });
+            var winner = {result: 'winner'};
+          var looser = {result: 'looser'};
+          this.broadcast(winner, { except: this.clients[1] });
+          this.broadcast(looser, { except: this.clients[0] });
          } else {
-            this.broadcast("Draw", { except: this.clients[0] });
-          this.broadcast("Draw", { except: this.clients[1] });
+           var draw = {result: 'draw'};
+          this.broadcast(draw, { except: this.clients[1] });
+          this.broadcast(draw, { except: this.clients[0] });
          }
          this.countdownInterval.clear();
            //Result 
@@ -189,7 +195,9 @@ req.end()
       this.countdownInterval.clear();
       //delete this.state.players[client.sessionId];
     }
-    this.broadcast("Waiting", { except: client});
+    var draw = {result: 'disconnected'};
+     this.broadcast(draw, { except: client });
+    //this.broadcast("Waiting", { except: client});
     this.countdownInterval.clear();
     // allow disconnected client to reconnect into this room until 20 seconds
     await this.allowReconnection(client, 20);
@@ -202,7 +210,10 @@ req.end()
     // 20 seconds expired. let's remove the client.
     this.clock.stop();
     this.countdownInterval.clear();
-    this.broadcast("Disconnected", { except: client});
+     var draw = {result: 'disconnected'};
+     this.broadcast(draw, { except: client });
+     
+    //this.broadcast("Disconnected", { except: client});
     //delete this.state.players[client.sessionId];
   }
 }
