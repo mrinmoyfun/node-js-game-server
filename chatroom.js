@@ -212,6 +212,7 @@ req.end()
     this.countdownInterval.clear();
      var draw = {result: 'disconnected'};
      this.broadcast(draw, { except: client });
+     this.disconnect();
      
     //this.broadcast("Disconnected", { except: client});
     //delete this.state.players[client.sessionId];
@@ -236,7 +237,8 @@ req.end()
     }
 
     onDispose () {
-        
+        var draw = {result: 'disposed'};
+     this.broadcast(draw, { except: client });
         console.log("Dispose BasicRoom");
     }
 
