@@ -9,7 +9,8 @@ schema.defineTypes(Player, {
   x: "number",
   y: "number",
   score: "number",
-  username: "string"
+  username: "string",
+  avatar: "string"
 });
 
 class MyState extends Schema {
@@ -36,7 +37,7 @@ exports.MyRoom = class extends colyseus.Room {
     
     // Authentication
     async onAuth (client, options) {
-    const userData = options.username;
+    const userData = options;
     return userData;
   }
     // When room is initialized
@@ -178,11 +179,12 @@ req.end()
         //this.state.players[client.sessionId].connected = true;
       this.state.players[client.sessionId] = new Player();
       this.state.players[client.sessionId].score =  0;
-      this.state.players[client.sessionId].username =  auth;
+      this.state.players[client.sessionId].username =  auth.username;
+      this.state.players[client.sessionId].avatar =  auth.avatar;
         
     if (this.clients.length === 2) {
-        var car1 = {opponentId: this.clients[0].sessionId , oppUsername:this.state.players[this.clients[0].sessionId].username};
-        var car2 = {opponentId: this.clients[1].sessionId , oppUsername:this.state.players[this.clients[1].sessionId].username};
+        var car1 = {opponentId: this.clients[0].sessionId , oppUsername:this.state.players[this.clients[0].sessionId].username, oppAvatar:this.state.players[this.clients[0].sessionId].avatar};
+        var car2 = {opponentId: this.clients[1].sessionId , oppUsername:this.state.players[this.clients[1].sessionId].username, oppAvatar:this.state.players[this.clients[1].sessionId].avatar};
         this.broadcast(car1, { except: this.clients[0] });
         this.broadcast(car2, { except: this.clients[1] });
         //var fk = JSON. stringify(this.clients);
