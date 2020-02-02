@@ -8,7 +8,8 @@ class Player extends Schema {
 schema.defineTypes(Player, {
   x: "number",
   y: "number",
-  score: "number"
+  score: "number",
+  username: "string"
 });
 
 class MyState extends Schema {
@@ -33,7 +34,11 @@ exports.MyRoom = class extends colyseus.Room {
     delayedInterval = colyseus.Delayed;
     mClients = colyseus.Clients;
     
-
+    // Authentication
+    async onAuth (client, options) {
+    const userData = options.username;
+    return userData;
+  }
     // When room is initialized
     onCreate(options) {
          this.setState({
@@ -169,14 +174,15 @@ req.end()
 
   
 
-    onJoin (client) {
+    onJoin (client, options, auth) {
         //this.state.players[client.sessionId].connected = true;
       this.state.players[client.sessionId] = new Player();
       this.state.players[client.sessionId].score =  0;
+      this.state.players[client.sessionId].username =  auth;
         
     if (this.clients.length === 2) {
-        var car1 = {opponentId: this.clients[0].sessionId , success:"500"};
-        var car2 = {opponentId: this.clients[1].sessionId , success:"500"};
+        var car1 = {opponentId: this.clients[0].sessionId , oppUsername:this.state.players[this.clients[0].sessionId].username};
+        var car2 = {opponentId: this.clients[1].sessionId , oppUsername:this.state.players[this.clients[1].sessionId].username};
         this.broadcast(car1, { except: this.clients[0] });
         this.broadcast(car2, { except: this.clients[1] });
         //var fk = JSON. stringify(this.clients);
