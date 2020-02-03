@@ -181,6 +181,10 @@ req.end()
       this.state.players[client.sessionId].score =  0;
       this.state.players[client.sessionId].username =  auth.username;
       this.state.players[client.sessionId].avatar =  auth.avatar;
+      
+      if(auth.lock === true) {
+        this.lock();
+      }
         
     if (this.clients.length === 2) {
         var car1 = {opponentId: this.clients[0].sessionId , oppUsername:this.state.players[this.clients[0].sessionId].username, oppAvatar:this.state.players[this.clients[0].sessionId].avatar};
