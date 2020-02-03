@@ -51,6 +51,7 @@ exports.MyRoom = class extends colyseus.Room {
 
     // When room is initialized
     onCreate(options) {
+      this.password = options.password;
          this.setState({
         countdown: 0,
         start: false,
