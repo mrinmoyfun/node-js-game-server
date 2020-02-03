@@ -40,6 +40,19 @@ exports.MyRoom = class extends colyseus.Room {
     const userData = options;
     return userData;
   }
+    // On Inititation
+     onInit (options) {
+    this.password = options.password;
+  }
+  // on Join Request
+  requestJoin (options) {
+    if(options.unlock === true) {
+        this.unlock();
+      }
+   // return (this.password && options.password == this.password);
+    return true;
+  }
+
     // When room is initialized
     onCreate(options) {
          this.setState({
@@ -182,9 +195,7 @@ req.end()
       this.state.players[client.sessionId].username =  auth.username;
       this.state.players[client.sessionId].avatar =  auth.avatar;
       
-      if(auth.unlock === true) {
-        this.unlock();
-      }
+      
       if(auth.lock === true) {
         this.lock();
       }
