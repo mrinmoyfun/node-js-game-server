@@ -185,6 +185,9 @@ req.end()
       if(auth.lock === true) {
         this.lock();
       }
+      if(auth.unlock === true) {
+        this.unlock();
+      }
         
     if (this.clients.length === 2) {
         var car1 = {opponentId: this.clients[0].sessionId , oppUsername:this.state.players[this.clients[0].sessionId].username, oppAvatar:this.state.players[this.clients[0].sessionId].avatar};
