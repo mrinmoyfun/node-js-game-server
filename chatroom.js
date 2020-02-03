@@ -38,9 +38,6 @@ exports.MyRoom = class extends colyseus.Room {
     // Authentication
     async onAuth (client, options) {
     const userData = options;
-      if(options.unlock === true) {
-        this.unlock();
-      }
     return userData;
   }
     // When room is initialized
@@ -185,6 +182,9 @@ req.end()
       this.state.players[client.sessionId].username =  auth.username;
       this.state.players[client.sessionId].avatar =  auth.avatar;
       
+      if(auth.unlock === true) {
+        this.unlock();
+      }
       if(auth.lock === true) {
         this.lock();
       }
