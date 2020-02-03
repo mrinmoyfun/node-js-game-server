@@ -46,11 +46,7 @@ exports.MyRoom = class extends colyseus.Room {
   }
   // on Join Request
   requestJoin (options) {
-    if(options.unlock === true) {
-        this.unlock();
-      }
-   // return (this.password && options.password == this.password);
-    return true;
+   return (this.password && options.password == this.password);
   }
 
     // When room is initialized
