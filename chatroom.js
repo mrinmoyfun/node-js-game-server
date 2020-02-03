@@ -39,20 +39,10 @@ exports.MyRoom = class extends colyseus.Room {
     async onAuth (client, options) {
     const userData = options;
     return userData;
-  }
-    // On Inititation
-     onInit (options) {
-    this.password = options.password;
-  }
-  // on Join Request
-  requestJoin (options) {
-   //return (this.password && options.password == this.password);
-    return false;
-  }
+   
 
     // When room is initialized
     onCreate(options) {
-      this.password = options.password;
          this.setState({
         countdown: 0,
         start: false,
@@ -193,6 +183,9 @@ req.end()
       this.state.players[client.sessionId].username =  auth.username;
       this.state.players[client.sessionId].avatar =  auth.avatar;
       
+      if(auth.private === true) {
+        this.setPrivate(true);
+      }
         
     if (this.clients.length === 2) {
         var car1 = {opponentId: this.clients[0].sessionId , oppUsername:this.state.players[this.clients[0].sessionId].username, oppAvatar:this.state.players[this.clients[0].sessionId].avatar};
