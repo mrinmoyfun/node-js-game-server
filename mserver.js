@@ -4,6 +4,7 @@ const cors = require('cors');
 const colyseus = require('colyseus');
 const monitor = require("@colyseus/monitor").monitor;
 // const socialRoutes = require("@colyseus/social/express").default;
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 
 const MyRoom = require('./chatroom').MyRoom;
 
