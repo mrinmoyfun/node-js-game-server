@@ -39,7 +39,7 @@ exports.MyRoom = class extends colyseus.Room {
     async onAuth (client, options) {
     const userData = options;
     return userData;
-   
+    }
 
     // When room is initialized
     onCreate(options) {
