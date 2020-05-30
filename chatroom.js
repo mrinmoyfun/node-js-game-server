@@ -58,6 +58,7 @@ exports.MyRoom = class extends colyseus.Room {
         let data = '';
       let ff= '';
         // Ready questions 
+      require('https').globalAgent.options.ca = require('ssl-root-cas/latest').create();
           const https = require('https');
         const optionspg = {
   hostname: 'pg.medgag.com',
