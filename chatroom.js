@@ -64,7 +64,7 @@ exports.MyRoom = class extends colyseus.Room {
   path: '/quiz/api/random.php?topic_id=7',
   method: 'GET'
 }
-   /** const req = https.request(optionspg, res => {
+   const req = https.request(optionspg, res => {
   console.log(`statusCode: ${res.statusCode}`)
  
         res.on('data', d => {
@@ -81,8 +81,7 @@ req.on('error', error => {
    //this.broadcast(error);
 })
        })
-req.end()
-**/
+req.end();
         
        
         // change the state to notify clients the game has been started
