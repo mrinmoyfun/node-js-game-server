@@ -47,6 +47,7 @@ exports.MyRoom = class extends colyseus.Room {
         countdown: 0,
         timer: 0,
         start: false,
+        robo: false,
         qid: 0,
         q: {},
         players: {},
@@ -92,13 +93,54 @@ req.end();
         // so that we may clear it later
         this.delayedInterval = this.clock.setInterval(() => {
           this.broadcast("Running");
+          // ROBO PLAYER
+          
           this.state.timer++;
           if(this.state.timer === 15 && this.clients.length === 1){
             this.setPrivate(true);
+            this.state.countdown--;
+            this.state.robo = true;
+    this.broadcast("Count " + this.state.countdown );
              var car1 = {opponentId: this.clients[0].sessionId , oppUsername:this.state.players[this.clients[0].sessionId].username, oppAvatar:this.state.players[this.clients[0].sessionId].avatar};
-        this.broadcast("Count " + this.state.countdown );
         this.broadcast(car1);
           }
+          if(this.state.robo){
+            if (this.state.countdown === 0) {
+       
+      //this.countdownInterval.clear();
+         
+        var ques = {q: ff.questions[this.state.qid] , qid:this.state.qid, empty: true};
+        this.state.correct = Number(ff.questions[this.state.qid].correctans);
+      if ( this.state.players[this.clients[0].sessionId] ) {
+        this.state.players[this.clients[0].sessionId].y = 0;
+      }
+      if ( this.state.players[this.clients[1].sessionId] ) {
+        this.state.players[this.clients[1].sessionId].y = 0;
+      }
+        //this.state.players[this.clients[1].sessionId].y = 0;
+        this.broadcast(ques);
+       // this.state.q = ff.questions[this.state.qid];
+        this.state.qid++;
+        this.state.countdown = 25;
+      this.state.start = true;
+      this.broadcast("Game Started ");
+      if(this.state.qid === 6) {
+            this.delayedInterval.clear();
+           //Result 
+            
+             this.broadcast("Game End ");
+             //this.disconnect();
+        }
+            
+            
+          }
+          
+          
+          
+          
+          
+          
+          // ROBO PLAYER
           if (this.clients.length === 2) {
              this.state.countdown--;
     this.broadcast("Count " + this.state.countdown );
