@@ -100,8 +100,12 @@ req.end();
             this.setPrivate(true);
             this.state.countdown = 10;
             this.state.robo = true;
+             this.state.players[client.sessionId+"robo"] = new Player();
+      this.state.players[client.sessionId+"robo"].score =  0;
+      this.state.players[client.sessionId+"robo"].username =  "Robo";
+      this.state.players[client.sessionId+"robo"].avatar =  "https://base.diagknows.org/wp-content/uploads/2021/03/drshital-removebg-preview-150x150.jpg";
     this.broadcast("Count " + this.state.countdown );
-             var car1 = {opponentId: this.clients[0].sessionId , oppUsername:this.state.players[this.clients[0].sessionId].username, oppAvatar:this.state.players[this.clients[0].sessionId].avatar};
+             var car1 = {opponentId: this.clients[0].sessionId+"robo" , oppUsername:this.state.players[this.clients[0].sessionId+"robo"].username, oppAvatar:this.state.players[this.clients[0].sessionId+"robo"].avatar};
         this.broadcast(car1);
           }
           if(this.state.robo){
@@ -112,9 +116,9 @@ req.end();
 
         var ques = {q: ff.questions[this.state.qid] , qid:this.state.qid, empty: true};
         this.state.correct = Number(ff.questions[this.state.qid].correctans);
-      if ( this.state.players[this.clients[0].sessionId] ) {
-        this.state.players[this.clients[0].sessionId].y = 0;
-      }
+     // if ( this.state.players[this.clients[0].sessionId] ) {
+       // this.state.players[this.clients[0].sessionId].y = 0;
+     // }
      
         //this.state.players[this.clients[1].sessionId].y = 0;
         this.broadcast(ques);
