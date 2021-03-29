@@ -94,12 +94,13 @@ req.end();
         this.delayedInterval = this.clock.setInterval(() => {
           this.broadcast("Running");
           // ROBO PLAYER
-          var roboId = this.clients[0].sessionId + "robo";
+          var roboId = "robo";
           this.state.timer++;
           if(this.state.timer === 15 && this.clients.length === 1){
             this.setPrivate(true);
             this.state.countdown = 10;
             this.state.robo = true;
+            var roboId = this.clients[0].sessionId + "robo";
              this.state.players[roboId] = new Player();
       this.state.players[roboId].score =  0;
       this.state.players[roboId].username =  "Robo";
