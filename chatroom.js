@@ -109,8 +109,48 @@ req.end();
              var car1 = {opponentId: roboId , oppUsername:this.state.players[roboId].username, oppAvatar:this.state.players[roboId].avatar};
         this.broadcast(car1);
           }
+          
+          
           if(this.state.robo){
             this.state.countdown--;
+     if(this.state.countdown === 17){
+            this.state.players[roboId].y =  Math.floor(Math.random() * 4) + 1; ;
+        if ( this.state.qid > 0 ) {
+          if ( this.state.players[roboId].y === this.state.correct ) {
+            this.state.players[roboId].score =  this.state.players[roboId].score + 20;
+            this.broadcast("RIGHT");
+          } else {
+            this.state.players[roboId].score =  this.state.players[roboId].score - 10;
+            this.broadcast("WRONG");
+          }
+        }
+    }
+            
+             if (this.state.countdown === 1) {
+      if(this.state.qid === 5) {
+         var result = {result: 'winner'};
+       if( this.state.players[this.clients[0].sessionId].score > this.state.players[roboId].score ) {
+          var winner = {result: 'winner'};
+          var looser = {result: 'looser'};
+          this.broadcast(winner);
+          
+        } else if (this.state.players[this.clients[1].sessionId].score > this.state.players[roboId].score) {
+            var winner = {result: 'winner'};
+          var looser = {result: 'looser'};
+          this.broadcast(looser);
+         } else {
+           var draw = {result: 'draw'};
+          this.broadcast(draw);
+         }
+         this.delayedInterval.clear();
+           //Result
+
+             this.broadcast("Game End ");
+             this.state.start = false;
+             //this.disconnect();
+       }
+     }
+            
             if (this.state.countdown === 0) {
 
       //this.countdownInterval.clear();
