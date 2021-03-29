@@ -19,13 +19,13 @@ class MyState extends Schema {
 
         this.players = new MapSchema();
     }
-  
+
 }
 schema.defineTypes(MyState, {
   players: { map: Player }
 });
 
- 
+
 
 
 
@@ -34,7 +34,7 @@ exports.MyRoom = class extends colyseus.Room {
     maxClients = 2;
     delayedInterval = colyseus.Delayed;
     mClients = colyseus.Clients;
-    
+
     // Authentication
     async onAuth (client, options) {
     const userData = options;
@@ -54,12 +54,12 @@ exports.MyRoom = class extends colyseus.Room {
         correct: 0
       })
         console.log("BasicRoom created!", options);
-        
+
         // start the clock ticking
         this.clock.start();
         let data = '';
       let ff= '';
-        // Ready questions 
+        // Ready questions
           const https = require('https');
         const optionspg = {
   hostname: 'pg.medgag.com',
@@ -68,7 +68,7 @@ exports.MyRoom = class extends colyseus.Room {
 }
    const req = https.request(optionspg, res => {
   console.log(`statusCode: ${res.statusCode}`)
- 
+
         res.on('data', d => {
         data += d;
       })
@@ -84,17 +84,17 @@ req.on('error', error => {
 })
        })
 req.end();
-        
-       
+
+
         // change the state to notify clients the game has been started
-       
+
 
         // Set an interval and store a reference to it
         // so that we may clear it later
         this.delayedInterval = this.clock.setInterval(() => {
           this.broadcast("Running");
           // ROBO PLAYER
-          
+
           this.state.timer++;
           if(this.state.timer === 15 && this.clients.length === 1){
             this.setPrivate(true);
@@ -106,9 +106,9 @@ req.end();
           }
           if(this.state.robo){
             if (this.state.countdown === 0) {
-       
+
       //this.countdownInterval.clear();
-         
+
         var ques = {q: ff.questions[this.state.qid] , qid:this.state.qid, empty: true};
         this.state.correct = Number(ff.questions[this.state.qid].correctans);
       if ( this.state.players[this.clients[0].sessionId] ) {
@@ -126,20 +126,21 @@ req.end();
       this.broadcast("Game Started ");
       if(this.state.qid === 6) {
             this.delayedInterval.clear();
-           //Result 
-            
+           //Result
+
              this.broadcast("Game End ");
              //this.disconnect();
         }
-            
-            
+
+
           }
-          
-          
-          
-          
-          
-          
+        }
+
+
+
+
+
+
           // ROBO PLAYER
           if (this.clients.length === 2) {
              this.state.countdown--;
@@ -152,7 +153,7 @@ req.end();
       if ( this.state.players[this.clients[0].sessionId] && this.state.players[this.clients[1].sessionId])  {
           if ( this.state.players[this.clients[0].sessionId].y > 0 && this.state.players[this.clients[1].sessionId].y > 0)  {
            this.state.countdown = 5;
-            
+
       }
       }
     }
@@ -175,18 +176,18 @@ req.end();
           this.broadcast(draw, { except: this.clients[0] });
          }
          this.delayedInterval.clear();
-           //Result 
-            
+           //Result
+
              this.broadcast("Game End ");
              this.state.start = false;
              //this.disconnect();
-       } 
-     } 
-    
+       }
+     }
+
     if (this.state.countdown === 0) {
-       
+
       //this.countdownInterval.clear();
-         
+
         var ques = {q: ff.questions[this.state.qid] , qid:this.state.qid, empty: true};
         this.state.correct = Number(ff.questions[this.state.qid].correctans);
       if ( this.state.players[this.clients[0].sessionId] ) {
@@ -204,17 +205,17 @@ req.end();
       this.broadcast("Game Started ");
       if(this.state.qid === 6) {
             this.delayedInterval.clear();
-           //Result 
-            
+           //Result
+
              this.broadcast("Game End ");
              //this.disconnect();
         }
-   
+
     }
           }
         }, 1000);
-          
-               
+
+
 
         // After 10 seconds clear the timeout;
         // this will *stop and destroy* the timeout completely
@@ -224,7 +225,7 @@ req.end();
         }, 10000);
     }
 
-  
+
 
     onJoin (client, options, auth) {
         //this.state.players[client.sessionId].connected = true;
@@ -232,12 +233,12 @@ req.end();
       this.state.players[client.sessionId].score =  0;
       this.state.players[client.sessionId].username =  auth.username;
       this.state.players[client.sessionId].avatar =  auth.avatar;
-      
+
       if(auth.private === true) {
         this.setPrivate(true);
       }
-      
-        
+
+
     if (this.clients.length === 2) {
         var car1 = {opponentId: this.clients[0].sessionId , oppUsername:this.state.players[this.clients[0].sessionId].username, oppAvatar:this.state.players[this.clients[0].sessionId].avatar};
         var car2 = {opponentId: this.clients[1].sessionId , oppUsername:this.state.players[this.clients[1].sessionId].username, oppAvatar:this.state.players[this.clients[1].sessionId].avatar};
@@ -248,17 +249,17 @@ req.end();
          this.broadcast("Full Play Start ");
         this.state.countdown = 10;
     }
-       
+
 
   this.countdownInterval = this.clock.setInterval(() => {
-   
+
   }, 1000);
-        
-        
+
+
 
         // additionally, you may lock the room to prevent new clients from joining it
         //this.lock()
-    
+
 }
 
 
@@ -284,7 +285,7 @@ req.end();
     const reconnectedClient = await this.allowReconnection(client, 20);
     this.send(reconnectedClient, reconnectedClient.sessionId + ' rejoined');
      var draw = {result: 'returned'};
-     this.broadcast(draw); 
+     this.broadcast(draw);
      this.clock.start();
     // client returned! let's re-activate it.
     //this.state.players[client.sessionId].connected = true;
@@ -297,7 +298,7 @@ req.end();
      var draw = {result: 'disconnected'};
      this.broadcast(draw, { except: client });
      this.disconnect();
-     
+
     //this.broadcast("Disconnected", { except: client});
     //delete this.state.players[client.sessionId];
   }
@@ -316,7 +317,7 @@ req.end();
             this.broadcast("WRONG", { except: client });
           }
         }
-        
+
         //this.broadcast(data.message, { except: client });
     }
 
@@ -326,4 +327,4 @@ req.end();
         console.log("Dispose BasicRoom");
     }
 
-} 
+}
