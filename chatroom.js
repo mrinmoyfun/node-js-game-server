@@ -136,7 +136,7 @@ req.end();
           var looser = {result: 'looser'};
           this.broadcast(winner);
           
-        } else if (this.state.players[this.clients[1].sessionId].score > this.state.players[this.state.roboId].score) {
+        } else if (this.state.players[this.clients[0].sessionId].score > this.state.players[this.state.roboId].score) {
             var winner = {result: 'winner'};
           var looser = {result: 'looser'};
           this.broadcast(looser);
@@ -168,9 +168,12 @@ req.end();
 
         var ques = {q: ff.questions[this.state.qid] , qid:this.state.qid, empty: true};
         this.state.correct = Number(ff.questions[this.state.qid].correctans);
-     // if ( this.state.players[this.clients[0].sessionId] ) {
-       // this.state.players[this.clients[0].sessionId].y = 0;
-     // }
+     if ( this.state.players[this.clients[0].sessionId] ) {
+        this.state.players[this.clients[0].sessionId].y = 0;
+      }
+      if ( this.state.players[this.state.roboId] ) {
+        this.state.players[this.state.roboId].y = 0;
+      }
      
         //this.state.players[this.clients[1].sessionId].y = 0;
         this.broadcast(ques);
