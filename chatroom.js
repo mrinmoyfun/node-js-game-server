@@ -179,7 +179,7 @@ req.end();
         this.broadcast(ques);
        // this.state.q = ff.questions[this.state.qid];
         this.state.qid++;
-        this.state.countdown = 25;
+        this.state.countdown = 60;
       this.state.start = true;
       this.broadcast("Game Started ");
       if(this.state.qid === 6) {
