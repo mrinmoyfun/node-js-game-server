@@ -93,12 +93,7 @@ req.end();
         this.delayedInterval = this.clock.setInterval(() => {
           this.broadcast("Running");
           this.state.timer++;
-          if(this.state.timer > 30 && this.clients.length === 1){
-            this.setPrivate(true);
-            var car1 = {opponentId: this.clients[0].sessionId , success:"500"};
-            this.broadcast(car1);
-        
-          }
+          
           if (this.clients.length === 2) {
              this.state.countdown--;
     this.broadcast("Count " + this.state.countdown );
@@ -194,6 +189,12 @@ req.end();
       if(auth.private === true) {
         this.setPrivate(true);
       }
+      if(this.state.timer > 15 && this.clients.length === 1){
+            this.setPrivate(true);
+             var car1 = {opponentId: this.clients[0].sessionId , oppUsername:this.state.players[this.clients[0].sessionId].username, oppAvatar:this.state.players[this.clients[0].sessionId].avatar};
+             this.broadcast(car1);
+        
+          }
         
     if (this.clients.length === 2) {
         var car1 = {opponentId: this.clients[0].sessionId , oppUsername:this.state.players[this.clients[0].sessionId].username, oppAvatar:this.state.players[this.clients[0].sessionId].avatar};
