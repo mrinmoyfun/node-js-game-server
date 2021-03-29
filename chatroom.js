@@ -94,7 +94,7 @@ req.end();
         this.delayedInterval = this.clock.setInterval(() => {
           this.broadcast("Running");
           // ROBO PLAYER
-          var roboId = client.sessionId+"robo";
+          var roboId = this.clients[0].sessionId + "robo";
           this.state.timer++;
           if(this.state.timer === 15 && this.clients.length === 1){
             this.setPrivate(true);
