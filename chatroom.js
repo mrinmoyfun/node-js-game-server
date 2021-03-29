@@ -94,18 +94,18 @@ req.end();
         this.delayedInterval = this.clock.setInterval(() => {
           this.broadcast("Running");
           // ROBO PLAYER
-
+          var roboId = client.sessionId+"robo";
           this.state.timer++;
           if(this.state.timer === 15 && this.clients.length === 1){
             this.setPrivate(true);
             this.state.countdown = 10;
             this.state.robo = true;
-             this.state.players[client.sessionId+"robo"] = new Player();
-      this.state.players[client.sessionId+"robo"].score =  0;
-      this.state.players[client.sessionId+"robo"].username =  "Robo";
-      this.state.players[client.sessionId+"robo"].avatar =  "https://base.diagknows.org/wp-content/uploads/2021/03/drshital-removebg-preview-150x150.jpg";
+             this.state.players[roboId] = new Player();
+      this.state.players[roboId].score =  0;
+      this.state.players[roboId].username =  "Robo";
+      this.state.players[roboId].avatar =  "https://base.diagknows.org/wp-content/uploads/2021/03/drshital-removebg-preview-150x150.jpg";
     this.broadcast("Count " + this.state.countdown );
-             var car1 = {opponentId: this.clients[0].sessionId+"robo" , oppUsername:this.state.players[this.clients[0].sessionId+"robo"].username, oppAvatar:this.state.players[this.clients[0].sessionId+"robo"].avatar};
+             var car1 = {opponentId: roboId , oppUsername:this.state.players[roboId].username, oppAvatar:this.state.players[roboId].avatar};
         this.broadcast(car1);
           }
           if(this.state.robo){
