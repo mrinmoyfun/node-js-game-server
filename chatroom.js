@@ -131,12 +131,12 @@ req.end();
              if (this.state.countdown === 1) {
       if(this.state.qid === 5) {
          var result = {result: 'winner'};
-       if( this.state.players[this.clients[0].sessionId].score > this.state.players[roboId].score ) {
+       if( this.state.players[this.clients[0].sessionId].score > this.state.players[this.state.roboId].score ) {
           var winner = {result: 'winner'};
           var looser = {result: 'looser'};
           this.broadcast(winner);
           
-        } else if (this.state.players[this.clients[1].sessionId].score > this.state.players[roboId].score) {
+        } else if (this.state.players[this.clients[1].sessionId].score > this.state.players[this.state.roboId].score) {
             var winner = {result: 'winner'};
           var looser = {result: 'looser'};
           this.broadcast(looser);
@@ -152,6 +152,15 @@ req.end();
              //this.disconnect();
        }
      }
+            
+            if (this.state.countdown > 5) {
+      if ( this.state.players[this.clients[0].sessionId] && this.state.players[this.state.roboId])  {
+          if ( this.state.players[this.clients[0].sessionId].y > 0 && this.state.players[this.state.roboId].y > 0)  {
+           this.state.countdown = 5;
+
+      }
+      }
+    }
             
             if (this.state.countdown === 0) {
 
