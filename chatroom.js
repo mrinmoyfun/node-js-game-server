@@ -48,6 +48,7 @@ exports.MyRoom = class extends colyseus.Room {
         timer: 0,
         start: false,
         robo: false,
+        roboId: "robo",
         qid: 0,
         q: {},
         players: {},
@@ -100,14 +101,14 @@ req.end();
             this.setPrivate(true);
             this.state.countdown = 10;
             this.state.robo = true;
-            var roboId = this.clients[0].sessionId + "robo";
-             this.state.players[roboId] = new Player();
-      this.state.players[roboId].score =  0;
-      this.state.players[roboId].y =  0;
-      this.state.players[roboId].username =  "Robo";
-      this.state.players[roboId].avatar =  "https://base.diagknows.org/wp-content/uploads/2021/03/drshital-removebg-preview-150x150.jpg";
+            this.state.roboId = this.clients[0].sessionId + "robo";
+             this.state.players[this.state.roboId] = new Player();
+      this.state.players[this.state.roboId].score =  0;
+      this.state.players[this.state.roboId].y =  0;
+      this.state.players[this.state.roboId].username =  "Robo";
+      this.state.players[this.state.roboId].avatar =  "https://base.diagknows.org/wp-content/uploads/2021/03/drshital-removebg-preview-150x150.jpg";
     this.broadcast("Count " + this.state.countdown );
-             var car1 = {opponentId: roboId , oppUsername:this.state.players[roboId].username, oppAvatar:this.state.players[roboId].avatar};
+             var car1 = {opponentId: this.state.roboId , oppUsername:this.state.players[this.state.roboId].username, oppAvatar:this.state.players[this.state.roboId].avatar};
         this.broadcast(car1);
           }
           
@@ -115,13 +116,13 @@ req.end();
           if(this.state.robo){
             this.state.countdown--;
      if(this.state.countdown === 17){
-            this.state.players[roboId].y =  Math.floor(Math.random() * 4) + 1; ;
+            this.state.players[this.state.roboId].y =  Math.floor(Math.random() * 4) + 1; ;
         if ( this.state.qid > 0 ) {
-          if ( this.state.players[roboId].y === this.state.correct ) {
-            this.state.players[roboId].score =  this.state.players[roboId].score + 20;
+          if ( this.state.players[this.state.roboId].y === this.state.correct ) {
+            this.state.players[this.state.roboId].score =  this.state.players[this.state.roboId].score + 20;
             this.broadcast("RIGHT");
           } else {
-            this.state.players[roboId].score =  this.state.players[roboId].score - 10;
+            this.state.players[this.state.roboId].score =  this.state.players[this.state.roboId].score - 10;
             this.broadcast("WRONG");
           }
         }
