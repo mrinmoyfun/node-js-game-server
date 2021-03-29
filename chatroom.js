@@ -98,13 +98,14 @@ req.end();
           this.state.timer++;
           if(this.state.timer === 15 && this.clients.length === 1){
             this.setPrivate(true);
-            this.state.countdown--;
+            this.state.countdown = 10;
             this.state.robo = true;
     this.broadcast("Count " + this.state.countdown );
              var car1 = {opponentId: this.clients[0].sessionId , oppUsername:this.state.players[this.clients[0].sessionId].username, oppAvatar:this.state.players[this.clients[0].sessionId].avatar};
         this.broadcast(car1);
           }
           if(this.state.robo){
+            this.state.countdown--;
             if (this.state.countdown === 0) {
 
       //this.countdownInterval.clear();
