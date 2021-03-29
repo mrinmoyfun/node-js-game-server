@@ -103,6 +103,7 @@ req.end();
             var roboId = this.clients[0].sessionId + "robo";
              this.state.players[roboId] = new Player();
       this.state.players[roboId].score =  0;
+      this.state.players[roboId].y =  0;
       this.state.players[roboId].username =  "Robo";
       this.state.players[roboId].avatar =  "https://base.diagknows.org/wp-content/uploads/2021/03/drshital-removebg-preview-150x150.jpg";
     this.broadcast("Count " + this.state.countdown );
