@@ -30,7 +30,7 @@ schema.defineTypes(MyState, {
 
 
 exports.MyRoom = class extends colyseus.Room {
-    // this room supports only 4 clients connected
+    // this room supports only 2 clients connected
     maxClients = 2;
     delayedInterval = colyseus.Delayed;
     mClients = colyseus.Clients;
@@ -45,6 +45,7 @@ exports.MyRoom = class extends colyseus.Room {
     onCreate(options) {
          this.setState({
         countdown: 0,
+        timer: 0,
         start: false,
         qid: 0,
         q: {},
@@ -91,6 +92,13 @@ req.end();
         // so that we may clear it later
         this.delayedInterval = this.clock.setInterval(() => {
           this.broadcast("Running");
+          this.state.timer++;
+          if(this.state.timer > 30 && this.clients.length === 1){
+            this.setPrivate(true);
+            var car1 = {opponentId: this.clients[0].sessionId , success:"500"};
+            this.broadcast(car1);
+        
+          }
           if (this.clients.length === 2) {
              this.state.countdown--;
     this.broadcast("Count " + this.state.countdown );
