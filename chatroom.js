@@ -115,9 +115,7 @@ req.end();
       if ( this.state.players[this.clients[0].sessionId] ) {
         this.state.players[this.clients[0].sessionId].y = 0;
       }
-      if ( this.state.players[this.clients[1].sessionId] ) {
-        this.state.players[this.clients[1].sessionId].y = 0;
-      }
+     
         //this.state.players[this.clients[1].sessionId].y = 0;
         this.broadcast(ques);
        // this.state.q = ff.questions[this.state.qid];
