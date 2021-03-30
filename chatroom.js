@@ -172,7 +172,7 @@ req.end();
            var draw = {result: 'draw'};
           this.broadcast(draw);
          }
-         this.delayedInterval.clear();
+        // this.delayedInterval.clear();
            //Result
 
              this.broadcast("Game End ");
@@ -211,7 +211,7 @@ req.end();
       this.state.start = true;
       this.broadcast("Game Started ");
       if(this.state.qid === 6) {
-            this.delayedInterval.clear();
+           // this.delayedInterval.clear();
            //Result
 
              this.broadcast("Game End ");
