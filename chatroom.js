@@ -389,6 +389,12 @@ req.end();
             this.broadcast("WRONG", { except: client });
           }
         }
+      
+      if(data.rematch){
+       this.state.countdown = 25;
+      this.state.start = true;
+        this.state.qid = 0;
+      }
 
         //this.broadcast(data.message, { except: client });
     }
