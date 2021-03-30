@@ -10,7 +10,8 @@ schema.defineTypes(Player, {
   y: "number",
   score: "number",
   username: "string",
-  avatar: "string"
+  avatar: "string",
+  rematch: "number"
 });
 
 class MyState extends Schema {
@@ -52,7 +53,9 @@ exports.MyRoom = class extends colyseus.Room {
         qid: 0,
         q: {},
         players: {},
-        correct: 0
+        correct: 0,
+        rematch: false,
+        match: 0
       })
         console.log("BasicRoom created!", options);
   //robo players
@@ -391,17 +394,20 @@ req.end();
         }
       
       
-      // Rematch
-       if (this.clients.length === 2) {
-      
-        
-       } else if( this.state.robo) {
-         if(data.rematch){
+       if(data.rematch){
+           if(this.state.robo){
+           this.state.players[client.sessionId].rematch = 1;
+           this.state.rematch = true;
+           this.state.match = this.state.match + 1;
            this.state.countdown = 25;
            this.state.start = true;
            this.state.qid = 0;
+           } else {
+           this.state.players[client.sessionId].rematch = 1;
            }
+           
        }
+    
 
         //this.broadcast(data.message, { except: client });
     }
