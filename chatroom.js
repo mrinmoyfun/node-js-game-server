@@ -390,11 +390,18 @@ req.end();
           }
         }
       
-      if(data.rematch){
-       this.state.countdown = 25;
-      this.state.start = true;
-        this.state.qid = 0;
-      }
+      
+      // Rematch
+       if (this.clients.length === 2) {
+      
+        
+       } else if( this.state.robo) {
+         if(data.rematch){
+           this.state.countdown = 25;
+           this.state.start = true;
+           this.state.qid = 0;
+           }
+       }
 
         //this.broadcast(data.message, { except: client });
     }
