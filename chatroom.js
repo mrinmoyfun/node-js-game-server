@@ -120,8 +120,12 @@ req.end();
           
           if(this.state.robo){
             this.state.countdown--;
-     if(this.state.countdown === 17){
-            this.state.players[this.state.roboId].y =  Math.floor(Math.random() * 4) + 1; ;
+            var rndNo = 17;
+            if(this.state.countdown === 24){
+             rndNo = Math.floor(Math.random() * 10) + 10;
+            }
+     if(this.state.countdown === rndNo){
+            this.state.players[this.state.roboId].y =  Math.floor(Math.random() * 4) + 1;
         if ( this.state.qid > 0 ) {
           if ( this.state.players[this.state.roboId].y === this.state.correct ) {
             this.state.players[this.state.roboId].score =  this.state.players[this.state.roboId].score + 20;
