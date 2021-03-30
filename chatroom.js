@@ -124,6 +124,17 @@ req.end();
           
           if(this.state.robo){
             this.state.countdown--;
+            
+            //Rematch
+            if(this.state.rematch){
+              this.state.countdown = 25;
+            var car1 = {opponentId: this.state.roboId , oppUsername:this.state.players[this.state.roboId].username, oppAvatar:this.state.players[this.state.roboId].avatar};
+        this.broadcast(car1);
+              this.state.start = true;
+            }
+            
+            
+            
             if(this.state.countdown === 24){
              rndNo = Math.floor(Math.random() * 10) + 10;
             }
