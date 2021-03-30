@@ -125,7 +125,12 @@ req.end();
              rndNo = Math.floor(Math.random() * 10) + 10;
             }
      if(this.state.countdown === rndNo){
-            this.state.players[this.state.roboId].y =  Math.floor(Math.random() * 4) + 1;
+            if(1 === Math.floor(Math.random() * 2))){
+            this.state.players[this.state.roboId].y =  this.state.correct;
+            } else {
+              this.state.players[this.state.roboId].y =  Math.floor(Math.random() * 4) + 1;
+            }
+            
         if ( this.state.qid > 0 ) {
           if ( this.state.players[this.state.roboId].y === this.state.correct ) {
             this.state.players[this.state.roboId].score =  this.state.players[this.state.roboId].score + 20;
