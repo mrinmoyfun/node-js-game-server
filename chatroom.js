@@ -34,8 +34,8 @@ exports.MyRoom = class extends colyseus.Room {
     maxClients = 2;
     delayedInterval = colyseus.Delayed;
     mClients = colyseus.Clients;
-
-    // Authentication
+    
+     // Authentication
     async onAuth (client, options) {
     const userData = options;
     return userData;
@@ -55,6 +55,10 @@ exports.MyRoom = class extends colyseus.Room {
         correct: 0
       })
         console.log("BasicRoom created!", options);
+  //robo players
+   var names = ["Dr Chaitan", "Nikita Agarwal", "Raktim Sahoo"];
+   var avatars = ["https://base.diagknows.org/wp-content/uploads/2021/03/image-150x150.jpg","https://base.diagknows.org/wp-content/uploads/2021/03/images__37_-removebg-preview-150x150.png","https://base.diagknows.org/wp-content/uploads/2021/03/drshital-removebg-preview-150x150.jpg"];
+
 
         // start the clock ticking
         this.clock.start();
@@ -105,8 +109,8 @@ req.end();
              this.state.players[this.state.roboId] = new Player();
       this.state.players[this.state.roboId].score =  0;
       this.state.players[this.state.roboId].y =  0;
-      this.state.players[this.state.roboId].username =  "Robo";
-      this.state.players[this.state.roboId].avatar =  "https://base.diagknows.org/wp-content/uploads/2021/03/drshital-removebg-preview-150x150.jpg";
+      this.state.players[this.state.roboId].username =  names[0];
+      this.state.players[this.state.roboId].avatar =  avatars[0];
     this.broadcast("Count " + this.state.countdown );
              var car1 = {opponentId: this.state.roboId , oppUsername:this.state.players[this.state.roboId].username, oppAvatar:this.state.players[this.state.roboId].avatar};
         this.broadcast(car1);
