@@ -172,7 +172,8 @@ req.end();
            var draw = {result: 'draw'};
           this.broadcast(draw);
          }
-        // this.delayedInterval.clear();
+         //this.delayedInterval.clear();
+        this.clock.stop();
            //Result
 
              this.broadcast("Game End ");
@@ -212,6 +213,7 @@ req.end();
       this.broadcast("Game Started ");
       if(this.state.qid === 6) {
            // this.delayedInterval.clear();
+        this.clock.stop();
            //Result
 
              this.broadcast("Game End ");
@@ -290,7 +292,7 @@ req.end();
       this.state.start = true;
       this.broadcast("Game Started ");
       if(this.state.qid === 6) {
-            this.delayedInterval.clear();
+           // this.delayedInterval.clear();
            //Result
 
              this.broadcast("Game End ");
@@ -407,6 +409,7 @@ req.end();
       
        if(data.rematch){
            if(this.state.robo){
+            this.clock.start();
            this.state.players[client.sessionId].rematch = 1;
            this.state.rematch = true;
            this.state.match = this.state.match + 1;
