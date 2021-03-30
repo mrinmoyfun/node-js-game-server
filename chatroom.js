@@ -96,6 +96,7 @@ req.end();
 
         // Set an interval and store a reference to it
         // so that we may clear it later
+        var rndNo = 17;
         this.delayedInterval = this.clock.setInterval(() => {
           this.broadcast("Running");
           // ROBO PLAYER
@@ -120,7 +121,6 @@ req.end();
           
           if(this.state.robo){
             this.state.countdown--;
-            var rndNo = 17;
             if(this.state.countdown === 24){
              rndNo = Math.floor(Math.random() * 10) + 10;
             }
